@@ -10,8 +10,9 @@ public class GUI extends JFrame {
     public GUI(SRGModel model){
 
         //Create a new Frame
-        setSize(600, 600); //The window Dimensions
+        setSize(800, 600); //The window Dimensions
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
 
         //create panel with border layout
         JPanel panel = new JPanel(new BorderLayout());
@@ -22,12 +23,14 @@ public class GUI extends JFrame {
 //        processing.core.PApplet sketch = new ProcessingSketch();
 //        panel.add(sketch, BorderLayout.CENTER);
 
-        SelectionPanel selectionPanel = new SelectionPanel(model);
-        panel.add(selectionPanel, BorderLayout.NORTH);
+
 
         StaffPanel staffPanel = new StaffPanel(model);
         staffPanel.setPreferredSize(new Dimension(200,200));
         panel.add(staffPanel, BorderLayout.SOUTH);
+
+        SelectionPanel selectionPanel = new SelectionPanel(model, staffPanel);
+        panel.add(selectionPanel, BorderLayout.NORTH);
 
 
         //add Panel to Window Frame

@@ -53,10 +53,12 @@ public class SRGModel {
     private ArrayList<Key> keys = new ArrayList<Key>();
     private ArrayList<System> scaleSystems = new ArrayList<System>();
     private ArrayList<MidiNote> midiNotes = new ArrayList();
+    private ArrayList<String> scales  = new ArrayList<>();
 
     public SRGModel() {
         initKeys();
         initSystems();
+        initScales();
         addNoteNumbers();
         initMidiNotes();
 
@@ -77,22 +79,32 @@ public class SRGModel {
 
     }
 
+    private void initScales() {
+        scales.add("Major");
+        scales.add("Dorian");
+        scales.add("Phrygian");
+        scales.add("Lydian");
+        scales.add("Mixolydian");
+        scales.add("Aeolian");
+        scales.add("Locrian");
+    }
+
     private void initKeys() {
-        keys.add(new Key("C major", 0, 0));
-        keys.add(new Key("G major", 1, 0));
-        keys.add(new Key("D major", 2, 0));
-        keys.add(new Key("A major", 3, 0));
-        keys.add(new Key("E major", 4, 0));
-        keys.add(new Key("B major", 5, 0));
-        keys.add(new Key("F# major", 6, 0));
-        keys.add(new Key("C# major", 7, 0));
-        keys.add(new Key("F major", 0, 1));
-        keys.add(new Key("Bb major", 0, 2));
-        keys.add(new Key("Eb major", 0, 3));
-        keys.add(new Key("Ab major", 0, 4));
-        keys.add(new Key("Db major", 0, 5));
-        keys.add(new Key("Gb major", 0, 6));
-        keys.add(new Key("Cb major", 0, 7));
+        keys.add(new Key("C ", 0, 0));
+        keys.add(new Key("G ", 1, 0));
+        keys.add(new Key("D ", 2, 0));
+        keys.add(new Key("A ", 3, 0));
+        keys.add(new Key("E ", 4, 0));
+        keys.add(new Key("B ", 5, 0));
+        keys.add(new Key("F# ", 6, 0));
+        keys.add(new Key("C# ", 7, 0));
+        keys.add(new Key("F ", 0, 1));
+        keys.add(new Key("Bb ", 0, 2));
+        keys.add(new Key("Eb ", 0, 3));
+        keys.add(new Key("Ab ", 0, 4));
+        keys.add(new Key("Db ", 0, 5));
+        keys.add(new Key("Gb ", 0, 6));
+        keys.add(new Key("Cb ", 0, 7));
         keys.add(new Key("D Dorisch", 0, 0));
         keys.add(new Key("E Frygisch", 0, 0));
         keys.add(new Key("F Lydisch", 0, 0));
@@ -328,6 +340,23 @@ public class SRGModel {
 
         return s;
     }
+
+    public String[] getScalesArray() {
+        String [] s;
+        s = new String[scales.size()];
+
+        for (int i = 0; i<scales.size(); i++) {
+            s[i] = scales.get(i).toString();
+
+        }
+
+        return s;
+
+
+
+    }
+
+
 
     private void replaceNotesInArray(String sharpflat) {
         for (int i = 0; i < scaleNotes.length; i++)
