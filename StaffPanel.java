@@ -29,7 +29,7 @@ public class StaffPanel extends JPanel implements ActionListener {
     private Tune.Music music;
     JScoreComponent scoreUI;
 
-
+//TODO: dit moet nog aangepast worden met listeners
     public StaffPanel(SRGModel model) {
         this.model = model;
 
@@ -84,7 +84,7 @@ public class StaffPanel extends JPanel implements ActionListener {
     public void setKey (KeySignature key) {
         System.out.println("setKey");
 
-        //TODO: retrieve current note
+        //TODO: retrieve current note; instellen van de nieuwe Key gaat niet goed.
 //        byte note = key.getNote();
 
         music.removeAllElements();
@@ -97,6 +97,21 @@ public class StaffPanel extends JPanel implements ActionListener {
 
         scoreUI.setTune(tune);
         repaint();
+    }
+
+    public void resetTune(byte keyNote, byte keyAccidental, byte mode, Note noteToDraw ) {
+        System.out.println("resetTune:" + keyNote+"-"+ keyAccidental+"-"+ mode+"-"+noteToDraw.toString());
+        System.out.println(noteToDraw.getHeight() +"-"+  noteToDraw.getAccidental());
+        tune = new Tune();
+        key = new KeySignature(keyNote, keyAccidental, mode);
+        tune.getMusic().addElement(key);
+        music = tune.getMusic();
+        music.addElement(noteToDraw);
+
+        // TODO: deze gaat bij B fout.
+        scoreUI.setTune(tune);
+
+
     }
 
 

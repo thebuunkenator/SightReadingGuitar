@@ -1,5 +1,6 @@
 
 
+import abc.notation.KeySignature;
 import abc.notation.Note;
 
 import javax.swing.*;
@@ -74,9 +75,11 @@ public class ToolbarPanel extends JPanel {
 
                 if(tmpNote != null) {
                     System.out.println("setting key to: " + tmpNote.toString());
-
+                    //deze werkt nog niet
                     //staffPanel.setKey(new KeySignature(tmpNote.getHeight(), KeySignature.MAJOR ));
-                    staffPanel.setNote(tmpNote);
+                    //deze werkt al wel
+                    //staffPanel.setNote(tmpNote);
+                    staffPanel.resetTune(tmpNote.getHeight(), tmpNote.getAccidental(), KeySignature.MAJOR, tmpNote);
                 }
                 System.out.println(cmbScale.getSelectedItem());
                 System.out.println(cmbFingeringSystem.getSelectedItem());

@@ -103,10 +103,10 @@ public class SRGModel {
         keys.add(new Key(new Note(Note.G), "G ", 1, 0));
         keys.add(new Key(new Note(Note.D), "D ", 2, 0));
         keys.add(new Key(new Note(Note.A), "A ", 3, 0));
-        keys.add(new Key(new Note(Note.B), "E ", 4, 0));
-        keys.add(new Key(new Note(Note.B), "B ", 5, 0));
+        keys.add(new Key(new Note(Note.E), "E ", 4, 0));
+        keys.add(new Key(new Note(Note.B, AccidentalType.NONE), "B ", 5, 0));
         keys.add(new Key(new Note(Note.F, AccidentalType.SHARP), "F# ", 6, 0));
-        keys.add(new Key(new Note(Note.F, AccidentalType.SHARP), "C# ", 7, 0));
+        keys.add(new Key(new Note(Note.C, AccidentalType.SHARP), "C# ", 7, 0));
         keys.add(new Key(new Note(Note.F), "F ", 0, 1));
         keys.add(new Key(new Note(Note.B, AccidentalType.FLAT), "Bb ", 0, 2));
         keys.add(new Key(new Note(Note.E, AccidentalType.FLAT), "Eb ", 0, 3));
