@@ -375,7 +375,14 @@ public class SRGModel {
 
         arrayCopy(scaleNotesDefault, scaleNotes);
     }
-
+    /**
+     * Method returns the the distance of the fret from the nut, in the same unit as scale
+     *
+     * @param s scale for example in pixels
+     * @param n fretnumber
+     * @return  distance in unit
+     *
+     */
     double distanceFromNut (double s, int n){
         //float s = 100;
         //d distance from nut, s scale length, n = fretnumber

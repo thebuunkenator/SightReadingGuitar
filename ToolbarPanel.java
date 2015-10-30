@@ -1,5 +1,5 @@
 
-import abc.notation.*;
+
 import abc.notation.Note;
 
 import javax.swing.*;
@@ -7,10 +7,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.*;
-import java.lang.System;
-import java.util.ArrayList;
+import java.lang.System.*;
 
-public class SelectionPanel extends JPanel{
+
+public class ToolbarPanel extends JPanel {
 
     private StaffPanel staffPanel;
     private JLabel lblKey;
@@ -23,7 +23,7 @@ public class SelectionPanel extends JPanel{
 
     private JButton btnOK;
 
-    public SelectionPanel(SRGModel model, final StaffPanel staffPanel) {
+    public ToolbarPanel(SRGModel model, final StaffPanel staffPanel) {
 
         this.staffPanel = staffPanel;
 
@@ -31,39 +31,43 @@ public class SelectionPanel extends JPanel{
         String[] systems = model.getScaleSystemsArray();
         String[] scales = model.getScalesArray();
 
+        JToolBar toolbar = new JToolBar();
+        toolbar.setRollover(true);
+
         cmbKey = new JComboBox(keys);
         cmbKey.setSelectedIndex(0);
-        cmbKey.setPreferredSize(new Dimension(10,10));
 
         cmbScale = new JComboBox(scales);
         cmbScale.setSelectedIndex(0);
-        cmbScale.setPreferredSize(new Dimension(10,10));
 
         cmbSystem = new JComboBox(systems);
         cmbSystem.setSelectedIndex(0);
 
         btnOK =  new JButton("OK");
-        btnOK.addActionListener(new ActionListener() {
+
+        ActionListener updateActionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                staffPanel.setKey(new KeySignature(Note.E, KeySignature.LOCRIAN));
+                // staffPanel.setKey(new KeySignature(Note.E, KeySignature.LOCRIAN));
                 staffPanel.setNote(new Note(Note.A));
 
+                //System.println("Updating...");
 
-//                System.out.println("changing note");
             }
-        });
+        };
 
-        this.setLayout(new GridLayout(2,4));
+        btnOK.addActionListener(updateActionListener);
+        cmbKey.addActionListener(updateActionListener);
+        cmbScale.addActionListener(updateActionListener);
+        cmbSystem.addActionListener(updateActionListener);
+
+        setLayout(new FlowLayout(FlowLayout.LEFT));
 
         add(new JLabel("Key"));
-        add(new JLabel("Scale:"));
-        add(new JLabel("System:"));
-        add(new JLabel(""));
-
-
         add(cmbKey);
+        add(new JLabel("Scale:"));
         add(cmbScale);
+        add(new JLabel("System:"));
         add(cmbSystem);
 
         add(btnOK);

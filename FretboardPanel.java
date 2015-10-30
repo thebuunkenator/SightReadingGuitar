@@ -95,12 +95,8 @@ public class FretboardPanel extends Canvas {
     }
 
     private void loadImage() {
-        //TODO relatief pad gebruiken
-//        if (fretboard == null) {
-//            fretboard = new ImageIcon("/Users/erik/IdeaProjects/SightReadingGuitar/src/img/guitarneck.png").getImage();
-//        }
         if (fretboard == null) {
-            fretboard = new ImageIcon("/Users/erik/IdeaProjects/SightReadingGuitar/src/img/gitaar_part.png").getImage();
+            fretboard = new ImageIcon("img/gitaar_part.png").getImage();
         }
 
     }

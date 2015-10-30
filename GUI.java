@@ -29,8 +29,8 @@ public class GUI extends JFrame {
         staffPanel.setPreferredSize(new Dimension(200,200));
         panel.add(staffPanel, BorderLayout.SOUTH);
 
-        SelectionPanel selectionPanel = new SelectionPanel(model, staffPanel);
-        panel.add(selectionPanel, BorderLayout.NORTH);
+        ToolbarPanel toolbarPanel = new ToolbarPanel(model, staffPanel);
+        panel.add(toolbarPanel, BorderLayout.NORTH);
 
 
         //add Panel to Window Frame
