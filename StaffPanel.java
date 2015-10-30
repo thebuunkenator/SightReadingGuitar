@@ -81,21 +81,23 @@ public class StaffPanel extends JPanel implements ActionListener {
 //        return (Note)music.getElementAt(0);
 //    }
 //
-//    public void setKey (KeySignature key) {
-//        System.out.println("setKey");
-//        Note note = getNote();
-//
-//        music.removeAllElements();
-//
-//        tune = new Tune();
-//
-//        tune.getMusic().addElement(key);
+    public void setKey (KeySignature key) {
+        System.out.println("setKey");
+
+        //TODO: retrieve current note
+//        byte note = key.getNote();
+
+        music.removeAllElements();
+
+        tune = new Tune();
+
+        tune.getMusic().addElement(key);
 //        music = tune.getMusic().addElement(note);
-//
-//
-//        scoreUI.setTune(tune);
-//        repaint();
-//    }
+
+
+        scoreUI.setTune(tune);
+        repaint();
+    }
 
 
 }

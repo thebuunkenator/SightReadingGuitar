@@ -241,6 +241,7 @@ public class FretboardPanel extends Canvas {
     public FretboardPanel() {
         setup();
     }
+
     @Override
     public void paintComponent(Graphics g) {
 

@@ -1,4 +1,4 @@
-public class System {
+public class FingeringSystem {
 
   String name;
   String keyNote;
@@ -7,7 +7,7 @@ public class System {
   int endBox;
 //  intervallen van toonladder
 
-  System (String _name, int _keyString, int _startBox, int _endBox)
+  FingeringSystem(String _name, int _keyString, int _startBox, int _endBox)
   {
     name=_name;
     keyNote = _name.substring(0,1).toLowerCase();

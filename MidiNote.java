@@ -1,71 +1,67 @@
 public class MidiNote {
-  public int getMidiNumber() {
-    return midiNumber;
-  }
 
-  public void setMidiNumber(int midiNumber) {
-    this.midiNumber = midiNumber;
-  }
+    private int midiNumber;
+    private String doubleFlat;
+    private String flat;
+    private String normal;
+    private String sharp;
+    private String doubleSharp;
 
-  public String getDoubleFlat() {
-    return doubleFlat;
-  }
+    MidiNote(int _midiNumber, String _doubleFlat, String _flat, String _normal, String _sharp, String _doubleSharp) {
+        midiNumber = _midiNumber;
+        doubleFlat = _doubleFlat;
+        flat = _flat;
+        normal = _normal;
+        sharp = _sharp;
+        doubleSharp = _doubleSharp;
+    }
 
-  public void setDoubleFlat(String doubleFlat) {
-    this.doubleFlat = doubleFlat;
-  }
+    public int getMidiNumber() {
+        return midiNumber;
+    }
 
-  public String getFlat() {
-    return flat;
-  }
+    public void setMidiNumber(int midiNumber) {
+        this.midiNumber = midiNumber;
+    }
 
-  public void setFlat(String flat) {
-    this.flat = flat;
-  }
+    public String getDoubleFlat() {
+        return doubleFlat;
+    }
 
-  public String getNormal() {
-    return normal;
-  }
+    public void setDoubleFlat(String doubleFlat) {
+        this.doubleFlat = doubleFlat;
+    }
 
-  public void setNormal(String normal) {
-    this.normal = normal;
-  }
+    public String getFlat() {
+        return flat;
+    }
 
-  public String getSharp() {
-    return sharp;
-  }
+    public void setFlat(String flat) {
+        this.flat = flat;
+    }
 
-  public void setSharp(String sharp) {
-    this.sharp = sharp;
-  }
+    public String getNormal() {
+        return normal;
+    }
 
-  public String getDoubleSharp() {
-    return doubleSharp;
-  }
+    public void setNormal(String normal) {
+        this.normal = normal;
+    }
 
-  public void setDoubleSharp(String doubleSharp) {
-    this.doubleSharp = doubleSharp;
-  }
+    public String getSharp() {
+        return sharp;
+    }
 
-  private int midiNumber;
-  private String doubleFlat;
-  private String flat;
-  private String normal;
-  private String sharp;
-  private String doubleSharp;
+    public void setSharp(String sharp) {
+        this.sharp = sharp;
+    }
 
+    public String getDoubleSharp() {
+        return doubleSharp;
+    }
 
-  MidiNote (  int _midiNumber, String _doubleFlat, String _flat, String _normal, String _sharp, String _doubleSharp) {
-    midiNumber = _midiNumber;
-    doubleFlat = _doubleFlat;
-    flat = _flat;
-    normal = _normal;
-    sharp = _sharp;
-    doubleSharp = _doubleSharp;
-  }
+    public void setDoubleSharp(String doubleSharp) {
+        this.doubleSharp = doubleSharp;
+    }
 
 }
-
-
-
-

@@ -1,8 +1,14 @@
+import java.lang.*;
+import java.lang.System;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import static processing.core.PApplet.pow;
 import static processing.core.PApplet.arrayCopy;
+
+import abc.notation.AccidentalType;
+import abc.notation.KeySignature;
+import abc.notation.Note;
 
 
 public class SRGModel {
@@ -51,9 +57,9 @@ public class SRGModel {
     private HashMap<String, Integer> noteNumbers = new HashMap<String, Integer>();
     private HashMap<Integer, String> midiNoteNumbers = new HashMap<Integer, String>();
     private ArrayList<Key> keys = new ArrayList<Key>();
-    private ArrayList<System> scaleSystems = new ArrayList<System>();
+    private ArrayList<FingeringSystem> fingeringSystems = new ArrayList<>();
     private ArrayList<MidiNote> midiNotes = new ArrayList();
-    private ArrayList<String> scales  = new ArrayList<>();
+    private ArrayList<Scale> scales  = new ArrayList();
 
     public SRGModel() {
         initKeys();
@@ -80,46 +86,44 @@ public class SRGModel {
     }
 
     private void initScales() {
-        scales.add("Major");
-        scales.add("Dorian");
-        scales.add("Phrygian");
-        scales.add("Lydian");
-        scales.add("Mixolydian");
-        scales.add("Aeolian");
-        scales.add("Locrian");
+        scales.add(new Scale(KeySignature.MAJOR, "Major"));
+        scales.add(new Scale(KeySignature.MINOR, "Minor"));
+        scales.add(new Scale(KeySignature.AEOLIAN, "Aeolian"));
+        scales.add(new Scale(KeySignature.DORIAN, "Dorian"));
+        scales.add(new Scale(KeySignature.IONIAN, "Ionian"));
+        scales.add(new Scale(KeySignature.LOCRIAN, "Locrian"));
+        scales.add(new Scale(KeySignature.LYDIAN, "Lydian"));
+        scales.add(new Scale(KeySignature.MIXOLYDIAN, "Mixolydian"));
+        scales.add(new Scale(KeySignature.PHRYGIAN, "Phrygian"));
+
     }
 
     private void initKeys() {
-        keys.add(new Key("C ", 0, 0));
-        keys.add(new Key("G ", 1, 0));
-        keys.add(new Key("D ", 2, 0));
-        keys.add(new Key("A ", 3, 0));
-        keys.add(new Key("E ", 4, 0));
-        keys.add(new Key("B ", 5, 0));
-        keys.add(new Key("F# ", 6, 0));
-        keys.add(new Key("C# ", 7, 0));
-        keys.add(new Key("F ", 0, 1));
-        keys.add(new Key("Bb ", 0, 2));
-        keys.add(new Key("Eb ", 0, 3));
-        keys.add(new Key("Ab ", 0, 4));
-        keys.add(new Key("Db ", 0, 5));
-        keys.add(new Key("Gb ", 0, 6));
-        keys.add(new Key("Cb ", 0, 7));
-        keys.add(new Key("D Dorisch", 0, 0));
-        keys.add(new Key("E Frygisch", 0, 0));
-        keys.add(new Key("F Lydisch", 0, 0));
-        keys.add(new Key("G Mixolydisch", 0, 0));
-        keys.add(new Key("A Aeolisch", 0, 0));
-        keys.add(new Key("B Locrisch", 0, 0));
+        keys.add(new Key(new Note(Note.C), "C ", 0, 0));
+        keys.add(new Key(new Note(Note.G), "G ", 1, 0));
+        keys.add(new Key(new Note(Note.D), "D ", 2, 0));
+        keys.add(new Key(new Note(Note.A), "A ", 3, 0));
+        keys.add(new Key(new Note(Note.B), "E ", 4, 0));
+        keys.add(new Key(new Note(Note.B), "B ", 5, 0));
+        keys.add(new Key(new Note(Note.F, AccidentalType.SHARP), "F# ", 6, 0));
+        keys.add(new Key(new Note(Note.F, AccidentalType.SHARP), "C# ", 7, 0));
+        keys.add(new Key(new Note(Note.F), "F ", 0, 1));
+        keys.add(new Key(new Note(Note.B, AccidentalType.FLAT), "Bb ", 0, 2));
+        keys.add(new Key(new Note(Note.E, AccidentalType.FLAT), "Eb ", 0, 3));
+        keys.add(new Key(new Note(Note.A, AccidentalType.FLAT), "Ab ", 0, 4));
+        keys.add(new Key(new Note(Note.D, AccidentalType.FLAT), "Db ", 0, 5));
+        keys.add(new Key(new Note(Note.G, AccidentalType.FLAT), "Gb ", 0, 6));
+        keys.add(new Key(new Note(Note.C, AccidentalType.FLAT), "Cb ", 0, 7));
     }
 
     void initSystems() {
-        scaleSystems.add(new System("C (CAGED)", 5, -3, 0));
-        scaleSystems.add(new System("A (CAGED)", 5, -1, 3));
-        scaleSystems.add(new System("G (CAGED)", 6, -4, 0));
-        scaleSystems.add(new System("E (CAGED)", 6, -1, 2));
-        scaleSystems.add(new System("D (CAGED)", 4, -1, 3));
-        scaleSystems.add(new System("E (3 per string)", 6, 0, 5));
+
+        fingeringSystems.add(new FingeringSystem("C (CAGED)", 5, -3, 0));
+        fingeringSystems.add(new FingeringSystem("A (CAGED)", 5, -1, 3));
+        fingeringSystems.add(new FingeringSystem("G (CAGED)", 6, -4, 0));
+        fingeringSystems.add(new FingeringSystem("E (CAGED)", 6, -1, 2));
+        fingeringSystems.add(new FingeringSystem("D (CAGED)", 4, -1, 3));
+        fingeringSystems.add(new FingeringSystem("E (3 per string)", 6, 0, 5));
     }
 
 
@@ -318,23 +322,24 @@ public class SRGModel {
 
         for (int i = 0; i<keys.size(); i++) {
             s[i] = keys.get(i).toString();
-
+            System.out.println("adding: " + i + "-" + keys.get(i).toString());
         }
+
 
         return s;
     }
 
-    public ArrayList<System> getScaleSystems() {
-        return scaleSystems;
+    public ArrayList<FingeringSystem> getFingeringSystems() {
+        return fingeringSystems;
     }
 
-    public String[] getScaleSystemsArray() {
+    public String[] getFingeringSystemsArray() {
 
         String [] s;
-        s = new String[scaleSystems.size()];
+        s = new String[fingeringSystems.size()];
 
-        for (int i = 0; i<scaleSystems.size(); i++) {
-            s[i] = scaleSystems.get(i).toString();
+        for (int i = 0; i< fingeringSystems.size(); i++) {
+            s[i] = fingeringSystems.get(i).toString();
 
         }
 
@@ -352,11 +357,7 @@ public class SRGModel {
 
         return s;
 
-
-
     }
-
-
 
     private void replaceNotesInArray(String sharpflat) {
         for (int i = 0; i < scaleNotes.length; i++)
@@ -387,5 +388,15 @@ public class SRGModel {
         //float s = 100;
         //d distance from nut, s scale length, n = fretnumber
         return s-(s/pow((float)2.0, (float)(n / 12.0)));
-}
+    }
+
+    // tijdelijke functie totdat we betere manier hebben om direct id terug te krijgen
+    public Note getNoteWithName(String s) {
+        for (Key currentKey : keys) {
+            if(currentKey.getName().equals(s)) {
+                return currentKey.getNote();
+            }
+        }
+        return null;
+    }
 }

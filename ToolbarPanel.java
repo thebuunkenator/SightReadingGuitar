@@ -7,51 +7,80 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.*;
-import java.lang.System.*;
+//import java.lang.System;
 
 
 public class ToolbarPanel extends JPanel {
 
     private StaffPanel staffPanel;
     private JLabel lblKey;
-    private JLabel lblSystem;
+    private JLabel lblFingeringSystem;
     private JLabel lblEmpty;
 
     private JComboBox cmbKey; //A.b.c etcd
     private  JComboBox cmbScale; //major, dorian,,,
-    private  JComboBox cmbSystem;
+    private  JComboBox cmbFingeringSystem;
 
     private JButton btnOK;
 
-    public ToolbarPanel(SRGModel model, final StaffPanel staffPanel) {
+    public ToolbarPanel(final SRGModel model, final StaffPanel staffPanel) {
 
         this.staffPanel = staffPanel;
 
         String[] keys = model.getKeysArray();
-        String[] systems = model.getScaleSystemsArray();
-        String[] scales = model.getScalesArray();
+        String[] fingeringsSystems = model.getFingeringSystemsArray();
+        final String[] scales = model.getScalesArray();
 
         JToolBar toolbar = new JToolBar();
         toolbar.setRollover(true);
 
-        cmbKey = new JComboBox(keys);
+        // Set up Combobox Keys
+        cmbKey = new JComboBox();
+
+
+        //cmbKey
+        DefaultComboBoxModel keysModel = new DefaultComboBoxModel();
+
+//
+        for (String currentKey : keys) {
+            System.out.println(currentKey);
+            keysModel.addElement(currentKey);
+        }
+        cmbKey.setModel(keysModel);
         cmbKey.setSelectedIndex(0);
 
+
+        //setup Combobox Scales
         cmbScale = new JComboBox(scales);
         cmbScale.setSelectedIndex(0);
 
-        cmbSystem = new JComboBox(systems);
-        cmbSystem.setSelectedIndex(0);
+        lblFingeringSystem = new JLabel("System:");
+        cmbFingeringSystem = new JComboBox(fingeringsSystems);
+        cmbFingeringSystem.setSelectedIndex(0);
 
         btnOK =  new JButton("OK");
 
         ActionListener updateActionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // staffPanel.setKey(new KeySignature(Note.E, KeySignature.LOCRIAN));
-                staffPanel.setNote(new Note(Note.A));
+//                staffPanel.setKey(new KeySignature(Note.E, KeySignature.LOCRIAN));
+//                staffPanel.setNote(new Note(Note.A));
 
-                //System.println("Updating...");
+//                staffPanel.setKey(new KeyS)
+
+                System.out.println("Updating...");
+                System.out.println(cmbKey.getSelectedItem());
+                Note tmpNote = model.getNoteWithName((String)cmbKey.getSelectedItem());
+
+                if(tmpNote != null) {
+                    System.out.println("setting key to: " + tmpNote.toString());
+
+                    //staffPanel.setKey(new KeySignature(tmpNote.getHeight(), KeySignature.MAJOR ));
+                    staffPanel.setNote(tmpNote);
+                }
+                System.out.println(cmbScale.getSelectedItem());
+                System.out.println(cmbFingeringSystem.getSelectedItem());
+
 
             }
         };
@@ -59,7 +88,7 @@ public class ToolbarPanel extends JPanel {
         btnOK.addActionListener(updateActionListener);
         cmbKey.addActionListener(updateActionListener);
         cmbScale.addActionListener(updateActionListener);
-        cmbSystem.addActionListener(updateActionListener);
+        cmbFingeringSystem.addActionListener(updateActionListener);
 
         setLayout(new FlowLayout(FlowLayout.LEFT));
 
@@ -67,8 +96,8 @@ public class ToolbarPanel extends JPanel {
         add(cmbKey);
         add(new JLabel("Scale:"));
         add(cmbScale);
-        add(new JLabel("System:"));
-        add(cmbSystem);
+        add(new JLabel("Fingering System:"));
+        add(cmbFingeringSystem);
 
         add(btnOK);
     }

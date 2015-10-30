@@ -1,13 +1,20 @@
+import abc.notation.Note;
+
 public class Key {
 
+    private Note note;
     private String name = "Unknown";
     private String keyNote = "C";
     private int numFlats = 0;
     private int numSharps = 0;
 
 
-    Key (String _name, int _numSharps, int _numFlats)
+
+
+    Key (Note note, String _name, int _numSharps, int _numFlats)
     {
+        this.note = note;
+
         name = _name;
 
         //deze klopt nog niet helemaal
@@ -20,6 +27,15 @@ public class Key {
     }
 
     ////// Getters and Setters //////
+
+    public Note getNote() {
+        return note;
+    }
+
+    public void setNote(Note note) {
+        this.note = note;
+    }
+
     public String getName() {
         return name;
     }
@@ -57,6 +73,8 @@ public class Key {
     public String toString() {
         return name;
     }
+
+
 }
 
 
