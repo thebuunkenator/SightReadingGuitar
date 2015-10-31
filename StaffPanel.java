@@ -21,15 +21,14 @@ public class StaffPanel extends JPanel implements ActionListener {
 
 //    private final int DELAY = 150;
 //    private Timer timer;
-    private SRGModel model;
+
     private KeySignature key;
     private Tune tune;
     private Tune.Music music;
     JScoreComponent scoreUI;
 
-//TODO: dit moet nog aangepast worden met listeners
-    public StaffPanel(SRGModel model) {
-        this.model = model;
+    //TODO: dit moet nog aangepast worden met listeners
+    public StaffPanel() {
 
         tune = new Tune();
         key = new KeySignature(Note.D, KeySignature.MAJOR);
@@ -48,52 +47,14 @@ public class StaffPanel extends JPanel implements ActionListener {
         add(scoreUI);
     }
 
-
-
-//    }
-
     @Override
     public void paintComponent(Graphics g) {
-
         super.paintComponent(g);
-        //doDrawing(g);
         scoreUI.repaint();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        repaint();
-    }
-
-    public void setNote (Note note) {
-        System.out.println("setNote");
-        String notes = tune.getNotes();
-
-        music.removeAllElements();
-        music.addElement(note);
-        scoreUI.setTune(tune);
-        repaint();
-    }
-
-//    public Note getNote() {
-//        return (Note)music.getElementAt(0);
-//    }
-//
-    public void setKey (KeySignature key) {
-        System.out.println("setKey");
-
-        //TODO: retrieve current note; instellen van de nieuwe Key gaat niet goed.
-//        byte note = key.getNote();
-
-        music.removeAllElements();
-
-        tune = new Tune();
-
-        tune.getMusic().addElement(key);
-//        music = tune.getMusic().addElement(note);
-
-
-        scoreUI.setTune(tune);
         repaint();
     }
 
@@ -106,7 +67,7 @@ public class StaffPanel extends JPanel implements ActionListener {
         music = tune.getMusic();
         music.addElement(noteToDraw);
 
-        // TODO: deze gaat bij B fout.
+        // TODO: deze gaat bij B fout MAJOR en nog vele anderen niet goed.
         scoreUI.setTune(tune);
 
 
