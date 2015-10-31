@@ -399,12 +399,12 @@ public class SRGModel {
         return null;
     }
 
-    public byte getScaleWithName(String s) {
+    public Scale getScaleWithName(String s) {
         for (Scale currentScale : scales) {
             if (currentScale.getName().equals(s)) {
-                return currentScale.getId();
+                return currentScale;
             }
         }
-        return (byte)-1;
+        return null;
     }
 }

@@ -73,7 +73,7 @@ public class ToolbarPanel extends JPanel {
 
                 //Scale
                 System.out.println("Scale: " +cmbScale.getSelectedItem());
-                byte tmpScaleId = model.getScaleWithName((String)cmbScale.getSelectedItem());
+                Scale tmpScale = model.getScaleWithName((String)cmbScale.getSelectedItem());
 
                 //Key
                 System.out.println("Key:" + cmbKey.getSelectedItem());
@@ -83,9 +83,9 @@ public class ToolbarPanel extends JPanel {
                 System.out.println(cmbFingeringSystem.getSelectedItem());
                 // TODO: change position
 
-                if(tmpNote != null && tmpScaleId != (byte)-1) {
+                if(tmpNote != null && tmpScale != null) {
                     System.out.println("setting key to: " + tmpNote.toString());
-                    staffPanel.resetTune(tmpNote.getHeight(), tmpNote.getAccidental(), tmpScaleId, tmpNote);
+                    staffPanel.resetTune(tmpNote.getHeight(), tmpNote.getAccidental(), tmpScale.getId(), tmpNote);
                     //TODO send message to controller and update model
                 }
                 else System.err.println("Error selecting key or scale. Either one is nto found");
