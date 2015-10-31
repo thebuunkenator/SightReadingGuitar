@@ -22,7 +22,7 @@ public class ToolbarPanel extends JPanel {
     private  JComboBox cmbScale; //major, dorian,,,
     private  JComboBox cmbFingeringSystem;
 
-    private JButton btnOK;
+    private JButton btnStart;
 
     public ToolbarPanel(final SRGModel model, final StaffPanel staffPanel) {
 
@@ -59,7 +59,7 @@ public class ToolbarPanel extends JPanel {
         cmbFingeringSystem = new JComboBox(fingeringsSystems);
         cmbFingeringSystem.setSelectedIndex(0);
 
-        btnOK =  new JButton("OK");
+        btnStart =  new JButton("Start");
 
         /* Listener s*/
         ActionListener updateActionListener = new ActionListener() {
@@ -69,43 +69,48 @@ public class ToolbarPanel extends JPanel {
 //                staffPanel.setNote(new Note(Note.A));
 
 //                staffPanel.setKey(new KeyS)
-
                 System.out.println("Updating...");
-                System.out.println(cmbKey.getSelectedItem());
+
+                //Scale
+                System.out.println("Scale: " +cmbScale.getSelectedItem());
+                byte tmpScaleId = model.getScaleWithName((String)cmbScale.getSelectedItem());
+
+                //Key
+                System.out.println("Key:" + cmbKey.getSelectedItem());
                 Note tmpNote = model.getNoteWithName((String)cmbKey.getSelectedItem());
 
-                if(tmpNote != null) {
-                    System.out.println("setting key to: " + tmpNote.toString());
-                    //deze werkt nog niet
-                    //staffPanel.setKey(new KeySignature(tmpNote.getHeight(), KeySignature.MAJOR ));
-                    //deze werkt al wel
-                    //staffPanel.setNote(tmpNote);
-                    staffPanel.resetTune(tmpNote.getHeight(), tmpNote.getAccidental(), KeySignature.MAJOR, tmpNote);
-                }
-                System.out.println(cmbScale.getSelectedItem());
+                //Fingering system
                 System.out.println(cmbFingeringSystem.getSelectedItem());
+                // TODO: change position
+
+                if(tmpNote != null && tmpScaleId != (byte)-1) {
+                    System.out.println("setting key to: " + tmpNote.toString());
+                    staffPanel.resetTune(tmpNote.getHeight(), tmpNote.getAccidental(), tmpScaleId, tmpNote);
+                    //TODO send message to controller and update model
+                }
+                else System.err.println("Error selecting key or scale. Either one is nto found");
+
+
 
 
             }
         };
 
-        btnOK.addActionListener(updateActionListener);
+        btnStart.addActionListener(updateActionListener);
         cmbKey.addActionListener(updateActionListener);
         cmbScale.addActionListener(updateActionListener);
         cmbFingeringSystem.addActionListener(updateActionListener);
 
         setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        /*
-         * Add items to toolbar
-         */
+        // Add items to toolbar
         toolbar.add(new JLabel("Key"));
         toolbar.add(cmbKey);
         toolbar.add(new JLabel("Scale:"));
         toolbar.add(cmbScale);
         toolbar.add(new JLabel("System:"));
         toolbar.add(cmbFingeringSystem);
-        toolbar.add(btnOK);
+        toolbar.add(btnStart);
 
         add(toolbar);
     }

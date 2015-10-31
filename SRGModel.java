@@ -117,7 +117,6 @@ public class SRGModel {
     }
 
     void initSystems() {
-
         fingeringSystems.add(new FingeringSystem("C (CAGED)", 5, -3, 0));
         fingeringSystems.add(new FingeringSystem("A (CAGED)", 5, -1, 3));
         fingeringSystems.add(new FingeringSystem("G (CAGED)", 6, -4, 0));
@@ -398,5 +397,14 @@ public class SRGModel {
             }
         }
         return null;
+    }
+
+    public byte getScaleWithName(String s) {
+        for (Scale currentScale : scales) {
+            if (currentScale.getName().equals(s)) {
+                return currentScale.getId();
+            }
+        }
+        return (byte)-1;
     }
 }
