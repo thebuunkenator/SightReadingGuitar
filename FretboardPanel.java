@@ -40,6 +40,8 @@ public class FretboardPanel extends Canvas {
 
     private Image fretboard;
 
+    private int y_offset_image;
+
     /**
      * Initialisaties
      */
@@ -72,15 +74,16 @@ public class FretboardPanel extends Canvas {
 //        int height = (int)(size.getWidth()*ratio);
         int width = (int)(IMG_WIDTH*ratio);
         int height = (int)(IMG_HEIGHT*ratio);
-        int y = (int)((getHeight() -height)*0.5); // center in panel
-        //int y = 0;
+        y_offset_image = (int)((getHeight() -height)*0.5); // center in panel
+        //y_offset_image = 0;
 
-        drawImage(fretboard, 0, y, width, height);
+        drawImage(fretboard, 0, y_offset_image, width, height);
+        //drawImage(fretboard, 0, 0, width, height);
 
         //margin =
         marginLeft = (int)(POS0_FRET*ratio);
         marginRight = (int)(16*ratio);
-        marginTop = (int)(MARGIN_TOP*ratio+y);
+        marginTop = (int)(MARGIN_TOP*ratio+y_offset_image);
         marginBottom = 0;
         fretboardWidth=(int)((POS22_FRET-POS0_FRET)*ratio);
         fretboardHeight=(int)((278-MARGIN_TOP)*ratio);
@@ -88,7 +91,7 @@ public class FretboardPanel extends Canvas {
         scale = (int)(((POS12_FRET-POS0_FRET)*2)*ratio);
 
 //        drawWood();
-        drawFrets();
+        //drawFrets();
 //        drawDots();
 //        drawStrings();
         calculate();
@@ -130,19 +133,18 @@ public class FretboardPanel extends Canvas {
         strokeWeight(1);
     }
     //
-    void drawFrets() {
-        strokeWeight((int)(4*ratio));
-        stroke (200,200,200);
-        for (int i = 0; i < numFrets + 1; i++) {
-            line((int)(marginLeft + distanceFromNut(scale, i)),  (int) (marginTop) , (int) (marginLeft + distanceFromNut(scale, i)), (int)((fretboardHeight)+ marginTop ));
-        }
+//    void drawFrets() {
+//        strokeWeight((int)(4*ratio));
+//        stroke (200,200,200);
+//        for (int i = 0; i < numFrets + 1; i++) {
+//            line((int)(marginLeft + distanceFromNut(scale, i)),  (int) (marginTop) , (int) (marginLeft + distanceFromNut(scale, i)), (int)((fretboardHeight)+ marginTop ));
+//        }
 
         //0-fret
 //        stroke(240, 240, 240);
 //        strokeWeight(15);
 //        line((int) (margin + distanceFromNut(scale, 0)), fretboardHeight - margin * 2 / 3, (int) (margin + distanceFromNut(scale, 0)), margin * 2 / 3);
 //        stroke(152, 152, 152);
-    }
 
 
     double distanceFromNut(double s, int n) {
@@ -194,7 +196,7 @@ public class FretboardPanel extends Canvas {
         int[] fretPositions = new int[numFrets+1];
         int[] fingerPositions = new int[numFrets+1];
         int[][] stringPositions = new int[6][numFrets+1];
-        int POS0_FINGER = 43; // deze hard meenemen
+        int POS0_FINGER = 30; // deze hard meenemen
 
         //fretPositions - positie van de fret
         for(int i=0; i<23; i++) {
@@ -208,7 +210,7 @@ public class FretboardPanel extends Canvas {
         for(int i=1; i<=numFrets; i++) {
             fingerPositions[i] = (int)((fretPositions [i] + fretPositions[i-1])/2);
 
-//            System.out.println("Finger: " + i + ": " + fingerPositions[i]);
+//           System.out.println("Finger: " + i + ": " + fingerPositions[i]);
         }
 
         // y posities van de snaar op fret 0 en 22
@@ -224,13 +226,23 @@ public class FretboardPanel extends Canvas {
         for(int snaar = 0;snaar<6; snaar++){
             rc_b[snaar][0]=((double)(s[snaar][2]-s[snaar][1])/(double)(POS22_FRET-POS0_FRET));
             rc_b[snaar][1] = (s[snaar][1])-(rc_b[snaar][0]*POS0_FRET);;
-//            System.out.println("y=" + rc_b[snaar][0] + "x + " + rc_b[snaar][1]);
+           // System.out.println("y=" + rc_b[snaar][0] + "x + " + rc_b[snaar][1]);
         }
 
         for(int snaar = 0; snaar<6; snaar ++) {
             for (int i = 0; i <= numFrets; i++) {
                 stringPositions[snaar][i] = (int) (rc_b[snaar][0] * fretPositions[i] + rc_b[snaar][1]);
 //                System.out.println("string " + (snaar + 1) +" pos: " + i + ": " + stringPositions[snaar][i]);
+                stroke(0,0,0);
+                fill(255,255,255);
+                int x=(int)((fingerPositions[i]-15)*ratio);
+                int y=(int)((stringPositions[snaar][i]-12)*ratio+y_offset_image);
+                int r = (int)(15*ratio);
+                ellipseMode(CENTER);
+                ellipse(x, y, r, r);
+                //stroke(0,0,0);
+                //text(x,y, "Eb");
+
             }
         }
 

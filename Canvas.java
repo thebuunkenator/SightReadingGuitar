@@ -7,7 +7,7 @@ import java.awt.*;
  */
 public class Canvas extends JPanel {
 
-    private Graphics2D g2d;
+    public Graphics2D g2d;
     final static int CORNER = 0;
     final static int CORNERS = 1;
     final static int RADIUS = 2;
@@ -19,6 +19,7 @@ public class Canvas extends JPanel {
     private Color strokeColor = Color.black;
     private Color fillColor = Color.cyan;
     private BasicStroke currentStroke = new BasicStroke();
+
 
     public Canvas () {
 //        println("double buffered: " + isDoubleBuffered());
@@ -104,15 +105,34 @@ public class Canvas extends JPanel {
     }
 
     public void ellipse(int x, int y, int r1, int r2) {
+        int dx = (int)(r1*0.5);
+        int dy = (int)(r2*0.5);
+
         switch (ellipseMode) {
             case CENTER:
-                g2d.fillOval(x, y, r1, r2);
+                g2d.setColor(fillColor);
+                g2d.fillOval(x+dx, y+dy, r1, r2);
+                g2d.setColor(strokeColor);
+                g2d.drawOval(x+dx, y+dy, r1, r2);
                 break;
             default:
                 g2d.fillOval(x, y, r1, r2);
+                g2d.drawOval(x, y, r1, r2);
                 break;
         }
 
+    }
+
+    public void text(int x, int y, String s) {
+
+        int stringLen = (int)g2d.getFontMetrics().getStringBounds(s, g2d).getWidth();
+        int stringHeight = (int)g2d.getFontMetrics().getStringBounds(s, g2d).getHeight();
+
+        int startx = stringLen/2;
+        int starty = stringHeight/2;
+
+        g2d.drawString(s,  x,  y);
+       // g2d.drawString(s, x, y);
     }
 
     public void drawImage(Image img, int x, int y, int sizeX, int sizeY) {
