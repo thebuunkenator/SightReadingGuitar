@@ -30,10 +30,6 @@ public class ToolbarPanel extends JPanel {
         cmbFingeringSystem = new JComboBox();
         btnStart =  new JButton("Start");
 
-
-
-
-
         setLayout(new FlowLayout(FlowLayout.LEFT));
 
         // Add items to toolbar
@@ -48,13 +44,12 @@ public class ToolbarPanel extends JPanel {
         add(toolbar);
     }
 
-
     public void populateKeysCombo(String[] list ) {
         //cmbKey
         DefaultComboBoxModel keysModel = new DefaultComboBoxModel();
 
         for (String currentKey : list) {
-            System.out.println(currentKey);
+//            System.out.println(currentKey);
             keysModel.addElement(currentKey);
         }
         cmbKey.setModel(keysModel);
@@ -66,7 +61,7 @@ public class ToolbarPanel extends JPanel {
         DefaultComboBoxModel scalesModel = new DefaultComboBoxModel();
 
         for (String currentKey : list) {
-            System.out.println(currentKey);
+//            System.out.println(currentKey);
             scalesModel.addElement(currentKey);
         }
         cmbScale.setModel(scalesModel);
@@ -78,7 +73,7 @@ public class ToolbarPanel extends JPanel {
         DefaultComboBoxModel fingering = new DefaultComboBoxModel();
 
         for (String currentKey : list) {
-            System.out.println(currentKey);
+//            System.out.println(currentKey);
             fingering.addElement(currentKey);
         }
         cmbFingeringSystem.setModel(fingering);
@@ -99,7 +94,6 @@ public class ToolbarPanel extends JPanel {
     }
 
     // Getters
-
     public JComboBox getCmbKey() {
         return cmbKey;
     }

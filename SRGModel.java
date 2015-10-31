@@ -35,8 +35,12 @@ public class SRGModel {
     String flats[] = {"-", "bb", "eb", "ab", "db", "gb", "cb", "fb"};
     String scaleNotes[] = {"c", "d", "e", "f", "g", "a", "b"};
 
-    int currentSystem = 0;
-    int currentKey = 0;
+
+    // Current Settings
+    Scale currentScale;
+    Note currentKey;
+    FingeringSystem currentFingeringSystem;
+
     int currentNote = 59;//b
     //int currentNote = 64;
 
@@ -56,8 +60,7 @@ public class SRGModel {
 
         fretboardWidth = 1200;
         fretboardHeight = 300;
-        currentSystem = 0;
-        currentKey = 0;
+
 
         margin = 50;
         numFrets = 15;
@@ -85,21 +88,20 @@ public class SRGModel {
     }
 
     private void initKeys() {
-        keys.add(new Key(new Note(Note.C), "C ", 0, 0));
-        keys.add(new Key(new Note(Note.G), "G ", 1, 0));
-        keys.add(new Key(new Note(Note.D), "D ", 2, 0));
-        keys.add(new Key(new Note(Note.A), "A ", 3, 0));
-        keys.add(new Key(new Note(Note.E), "E ", 4, 0));
-        keys.add(new Key(new Note(Note.B, AccidentalType.NONE), "B ", 5, 0));
-        keys.add(new Key(new Note(Note.F, AccidentalType.SHARP), "F# ", 6, 0));
-        keys.add(new Key(new Note(Note.C, AccidentalType.SHARP), "C# ", 7, 0));
-        keys.add(new Key(new Note(Note.F), "F ", 0, 1));
-        keys.add(new Key(new Note(Note.B, AccidentalType.FLAT), "Bb ", 0, 2));
-        keys.add(new Key(new Note(Note.E, AccidentalType.FLAT), "Eb ", 0, 3));
-        keys.add(new Key(new Note(Note.A, AccidentalType.FLAT), "Ab ", 0, 4));
-        keys.add(new Key(new Note(Note.D, AccidentalType.FLAT), "Db ", 0, 5));
-        keys.add(new Key(new Note(Note.G, AccidentalType.FLAT), "Gb ", 0, 6));
-        keys.add(new Key(new Note(Note.C, AccidentalType.FLAT), "Cb ", 0, 7));
+        keys.add(new Key(new Note(Note.C), "C", 0, 0));
+        keys.add(new Key(new Note(Note.G), "G", 1, 0));
+        keys.add(new Key(new Note(Note.D), "D", 2, 0));
+        keys.add(new Key(new Note(Note.A), "A", 3, 0));
+        keys.add(new Key(new Note(Note.E), "E", 4, 0));
+        keys.add(new Key(new Note(Note.B, AccidentalType.NONE), "B", 5, 0));
+        keys.add(new Key(new Note(Note.F, AccidentalType.SHARP), "F#", 6, 0));
+        keys.add(new Key(new Note(Note.C, AccidentalType.SHARP), "C#", 7, 0));
+        keys.add(new Key(new Note(Note.F), "F", 0, 1));
+        keys.add(new Key(new Note(Note.B, AccidentalType.FLAT), "Bb", 0, 2));
+        keys.add(new Key(new Note(Note.E, AccidentalType.FLAT), "Eb", 0, 3));
+        keys.add(new Key(new Note(Note.A, AccidentalType.FLAT), "Ab", 0, 4));
+        keys.add(new Key(new Note(Note.D, AccidentalType.FLAT), "Db", 0, 5));
+        keys.add(new Key(new Note(Note.G, AccidentalType.FLAT), "Gb", 0, 6));
     }
 
     void initSystems() {
@@ -307,7 +309,7 @@ public class SRGModel {
 
         for (int i = 0; i<keys.size(); i++) {
             s[i] = keys.get(i).toString();
-            System.out.println("adding: " + i + "-" + keys.get(i).toString());
+//            System.out.println("adding: " + i + "-" + keys.get(i).toString());
         }
 
 
@@ -342,6 +344,32 @@ public class SRGModel {
 
         return s;
 
+    }
+
+    public Scale getCurrentScale() {
+        return currentScale;
+    }
+
+    public void setCurrentScale(Scale currentScale) {
+        this.currentScale = currentScale;
+    }
+
+    public Note getCurrentKey() {
+        return currentKey;
+    }
+
+    public void setCurrentKey(Note currentKey) {
+        this.currentKey = currentKey;
+        // update Notes in notes to draw
+        // update frame position
+    }
+
+    public FingeringSystem getCurrentFingeringSystem() {
+        return currentFingeringSystem;
+    }
+
+    public void setCurrentFingeringSystem(FingeringSystem currentFingeringSystem) {
+        this.currentFingeringSystem = currentFingeringSystem;
     }
 
     private void replaceNotesInArray(String sharpflat) {

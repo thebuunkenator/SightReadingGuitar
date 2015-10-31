@@ -19,9 +19,9 @@ public class Key {
 
         //deze klopt nog niet helemaal
         //moet eigenlijk eerste spatie zoeken.
-        int spaceLocation = _name.indexOf(" ");
+ //       int spaceLocation = _name.indexOf(" ");
 
-        keyNote = _name.toLowerCase().substring(0,spaceLocation);
+//        keyNote = _name.toLowerCase().substring(0,spaceLocation);
         numFlats = _numFlats;
         numSharps = _numSharps;
     }

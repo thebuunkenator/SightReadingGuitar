@@ -17,10 +17,7 @@ public class Main {
         // start application in separate thread
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                // initialize model
-                SRGModel model = new SRGModel();
                 new Controller();
-
             }
         });
 
