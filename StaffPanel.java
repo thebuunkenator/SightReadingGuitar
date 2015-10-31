@@ -4,16 +4,14 @@ import abc.notation.KeySignature;
 import abc.notation.Tune;
 import abc.notation.Note;
 import abc.ui.swing.JScoreComponent;
-import com.sun.tools.corba.se.idl.constExpr.Not;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileOutputStream;
+
 import  java.lang.System;
-import java.util.Iterator;
-//import java.util.Random;
+
 
 
 /**

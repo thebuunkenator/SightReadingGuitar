@@ -61,6 +61,7 @@ public class ToolbarPanel extends JPanel {
 
         btnOK =  new JButton("OK");
 
+        /* Listener s*/
         ActionListener updateActionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -95,13 +96,17 @@ public class ToolbarPanel extends JPanel {
 
         setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        add(new JLabel("Key"));
-        add(cmbKey);
-        add(new JLabel("Scale:"));
-        add(cmbScale);
-        add(new JLabel("Fingering System:"));
-        add(cmbFingeringSystem);
+        /*
+         * Add items to toolbar
+         */
+        toolbar.add(new JLabel("Key"));
+        toolbar.add(cmbKey);
+        toolbar.add(new JLabel("Scale:"));
+        toolbar.add(cmbScale);
+        toolbar.add(new JLabel("System:"));
+        toolbar.add(cmbFingeringSystem);
+        toolbar.add(btnOK);
 
-        add(btnOK);
+        add(toolbar);
     }
 }
