@@ -13,11 +13,8 @@ import abc.notation.Note;
 
 public class SRGModel {
 
-    public final static int F_SELECT = 0;
-    final static String scaleNotesDefault[] = {
-            "c", "d", "e", "f", "g", "a", "b"
-    };
-    boolean LOG = true;
+    final static String scaleNotesDefault[] = {"c", "d", "e", "f", "g", "a", "b"};
+
     float margin;
     int fretboardWidth;
     int fretboardHeight;
@@ -27,27 +24,15 @@ public class SRGModel {
     int numFrets = 21;
     String[] tuning = {"e", "b", "g", "d", "a", "e" };
 
-    int[] midiTuning = {
-            64, 59, 55, 50, 45, 40
-    }; // midi noot toon hoogte nodig om vertaling naar notenschrift te maken
+    int[] midiTuning = {64, 59, 55, 50, 45, 40}; // midi noot toon hoogte nodig om vertaling naar notenschrift te maken
 
-    int[] majorScale = {
-            2, 2, 1, 2, 2, 2, 1
-    };
-    int[] position = {
-            0, 5
-    };
+    int[] majorScale = {2, 2, 1, 2, 2, 2, 1};
+    int[] position = {0, 5};
+
     boolean useFrame;
-    String sharps[] = {
-            "-", "f#", "c#", "g#", "d#", "a#", "e#", "b#"
-    };
-    String flats[] = {
-            "-", "bb", "eb", "ab", "db", "gb", "cb", "fb"
-    };
-
-    String scaleNotes[] = {
-            "c", "d", "e", "f", "g", "a", "b"
-    };
+    String sharps[] = {"-", "f#", "c#", "g#", "d#", "a#", "e#", "b#"};
+    String flats[] = {"-", "bb", "eb", "ab", "db", "gb", "cb", "fb"};
+    String scaleNotes[] = {"c", "d", "e", "f", "g", "a", "b"};
 
     int currentSystem = 0;
     int currentKey = 0;

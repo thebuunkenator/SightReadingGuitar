@@ -25,7 +25,7 @@ public class GUI extends JFrame {
 
 
 
-        StaffPanel staffPanel = new StaffPanel(model);
+        StaffPanel staffPanel = new StaffPanel();
         staffPanel.setPreferredSize(new Dimension(200,200));
         panel.add(staffPanel, BorderLayout.SOUTH);
 

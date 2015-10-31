@@ -65,10 +65,7 @@ public class ToolbarPanel extends JPanel {
         ActionListener updateActionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                staffPanel.setKey(new KeySignature(Note.E, KeySignature.LOCRIAN));
-//                staffPanel.setNote(new Note(Note.A));
 
-//                staffPanel.setKey(new KeyS)
                 System.out.println("Updating...");
 
                 //Scale
