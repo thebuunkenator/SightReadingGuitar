@@ -7,16 +7,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
+// THIS IS the VIEW
+
 public class GUI extends JFrame {
 
     final static String APP_NAME = "Sightreading";
-    private JMenuBar menuBar;
 
-    public GUI(SRGModel model){
+    private ToolbarPanel toolbarPanel;
+    private StaffPanel staffPanel;
+    private FretboardPanel fretboardPanel;
 
-        setLookAndFeel();
-
+    public GUI(){
         setTitle(APP_NAME);
+        setLookAndFeel();
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name", APP_NAME);
 
         //Create a new Frame
         setSize(800, 600); //The window Dimensions
@@ -28,46 +33,44 @@ public class GUI extends JFrame {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBounds(0, 0, 600, 600);
 
-        FretboardPanel fretboardPanel = new FretboardPanel();
+        fretboardPanel = new FretboardPanel();
         panel.add(fretboardPanel, BorderLayout.CENTER);
 //        processing.core.PApplet sketch = new ProcessingSketch();
 //        panel.add(sketch, BorderLayout.CENTER);
 
-
-
-        StaffPanel staffPanel = new StaffPanel();
+        staffPanel = new StaffPanel();
         staffPanel.setPreferredSize(new Dimension(200,200));
         panel.add(staffPanel, BorderLayout.SOUTH);
 
-        ToolbarPanel toolbarPanel = new ToolbarPanel(model, staffPanel);
+        toolbarPanel = new ToolbarPanel();
         panel.add(toolbarPanel, BorderLayout.NORTH);
-
-        //listeners
-        toolbarPanel.setFormListener(new FormListener() {
-            @Override // implement methods of interface
-            public void formEventOccured(FormEvent e) {
-                String key = e.getKey();
-                String fingeringSystem = e.getFingeringSystem();
-                String scale = e.getScale();
-
-                System.out.println ("Listener: We have recieved notification.");
-
-                //centerPanel.appendText(key + ": " + system + "\n");
-
-            }
-        });
-
-
 
         //add Panel to Window Frame
         add(panel);
 
         //add Menu
-        System.setProperty("apple.laf.useScreenMenuBar", "true");
+
         setJMenuBar(new MainMenu());
 
         setVisible(true);
     }
+
+    /*
+    Getters and setters
+     */
+
+    public ToolbarPanel getToolbarPanel() {
+        return toolbarPanel;
+    }
+
+    public StaffPanel getStaffPanel() {
+        return staffPanel;
+    }
+
+    public FretboardPanel getFretboardPanel() {
+        return fretboardPanel;
+    }
+
 
     private void setLookAndFeel () {
         // set the look and feel
@@ -88,7 +91,7 @@ public class GUI extends JFrame {
         }
 
         //TODO: De volgende werkt nog niet (appname in title balk)
-        System.setProperty("com.apple.mrj.application.apple.menu.about.name", APP_NAME);
+
     }
 
 //User Interaction

@@ -13,112 +13,26 @@ import java.lang.*;
 
 public class ToolbarPanel extends JPanel {
 
-    private FormListener formListener;
-
-    private StaffPanel staffPanel;
-    private JLabel lblKey;
-    private JLabel lblFingeringSystem;
-    private JLabel lblEmpty;
-
     private JComboBox cmbKey; //A.b.c etcd
-    private  JComboBox cmbScale; //major, dorian,,,
-    private  JComboBox cmbFingeringSystem;
+    private JComboBox cmbScale; //major, dorian,,,
+    private JComboBox cmbFingeringSystem; // C A G E D
 
     private JButton btnStart;
 
-    public ToolbarPanel(final SRGModel model, final StaffPanel staffPanel) {
-
-        this.staffPanel = staffPanel;
-
-        String[] keys = model.getKeysArray();
-        String[] fingeringsSystems = model.getFingeringSystemsArray();
-        final String[] scales = model.getScalesArray();
+    public ToolbarPanel() {
 
         JToolBar toolbar = new JToolBar();
         toolbar.setRollover(true);
 
         // Set up Combobox Keys
         cmbKey = new JComboBox();
-
-
-        //cmbKey
-        DefaultComboBoxModel keysModel = new DefaultComboBoxModel();
-
-//
-        for (String currentKey : keys) {
-            System.out.println(currentKey);
-            keysModel.addElement(currentKey);
-        }
-        cmbKey.setModel(keysModel);
-        cmbKey.setSelectedIndex(0);
-
-
-        //setup Combobox Scales
-        cmbScale = new JComboBox(scales);
-        cmbScale.setSelectedIndex(0);
-
-        lblFingeringSystem = new JLabel("System:");
-        cmbFingeringSystem = new JComboBox(fingeringsSystems);
-        cmbFingeringSystem.setSelectedIndex(0);
-
+        cmbScale = new JComboBox();
+        cmbFingeringSystem = new JComboBox();
         btnStart =  new JButton("Start");
 
-        /* Listener s*/
-//        ActionListener updateActionListener = new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//
-//                System.out.println("Updating...");
-//
-//                //Scale
-//                System.out.println("Scale: " +cmbScale.getSelectedItem());
-//                Scale tmpScale = model.getScaleWithName((String)cmbScale.getSelectedItem());
-//
-//                //Key
-//                System.out.println("Key:" + cmbKey.getSelectedItem());
-//                Note tmpNote = model.getNoteWithName((String)cmbKey.getSelectedItem());
-//
-//                //Fingering system
-//                System.out.println(cmbFingeringSystem.getSelectedItem());
-//                // TODO: change position
-//
-//                if(tmpNote != null && tmpScale != null) {
-//                    System.out.println("setting key to: " + tmpNote.toString());
-//                    staffPanel.resetTune(tmpNote.getHeight(), tmpNote.getAccidental(), tmpScale.getId(), tmpNote);
-//                    //TODO send message to controller and update model
-//                }
-//                else System.err.println("Error selecting key or scale. Either one is nto found");
-//
-//
-//
-//
-//            }
-//        };
 
 
 
-
-        //ActionListeners -> update the ones that want to recieve notification
-        ActionListener updateActionListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String key = cmbKey.getSelectedItem().toString();
-                String system = cmbFingeringSystem.getSelectedItem().toString();
-                String scale = cmbScale.getSelectedItem().toString();
-
-                FormEvent ev = new FormEvent(this, key, system, scale);
-                if (formListener != null) {
-                    formListener.formEventOccured(ev);
-
-                }
-
-            }
-        };
-
-        btnStart.addActionListener(updateActionListener);
-        cmbKey.addActionListener(updateActionListener);
-        cmbScale.addActionListener(updateActionListener);
-        cmbFingeringSystem.addActionListener(updateActionListener);
 
         setLayout(new FlowLayout(FlowLayout.LEFT));
 
@@ -134,8 +48,67 @@ public class ToolbarPanel extends JPanel {
         add(toolbar);
     }
 
-    // function that recieves classes that wants to be notified
-    public void setFormListener(FormListener formListener) {
-        this.formListener = formListener;
+
+    public void populateKeysCombo(String[] list ) {
+        //cmbKey
+        DefaultComboBoxModel keysModel = new DefaultComboBoxModel();
+
+        for (String currentKey : list) {
+            System.out.println(currentKey);
+            keysModel.addElement(currentKey);
+        }
+        cmbKey.setModel(keysModel);
+        cmbKey.setSelectedIndex(0);
+    }
+
+    public void populateScalesCombo(String[] list ) {
+        //cmbKey
+        DefaultComboBoxModel scalesModel = new DefaultComboBoxModel();
+
+        for (String currentKey : list) {
+            System.out.println(currentKey);
+            scalesModel.addElement(currentKey);
+        }
+        cmbScale.setModel(scalesModel);
+        cmbScale.setSelectedIndex(0);
+    }
+
+    public void populateFingeringSystemCombobox(String[] list ) {
+        //cmbKey
+        DefaultComboBoxModel fingering = new DefaultComboBoxModel();
+
+        for (String currentKey : list) {
+            System.out.println(currentKey);
+            fingering.addElement(currentKey);
+        }
+        cmbFingeringSystem.setModel(fingering);
+        cmbFingeringSystem.setSelectedIndex(0);
+    }
+
+    /*
+     * Set the action listeners
+     */
+    public void addButtonActionListener(ActionListener listener) {
+        btnStart.addActionListener(listener);
+    }
+
+    public void addComboActionListener(ActionListener listener) {
+        cmbFingeringSystem.addActionListener(listener);
+        cmbScale.addActionListener(listener);
+        cmbKey.addActionListener(listener);
+    }
+
+    // Getters
+
+    public JComboBox getCmbKey() {
+        return cmbKey;
+    }
+
+    public JComboBox getCmbScale() {
+        return cmbScale;
+    }
+
+    public JComboBox getCmbFingeringSystem() {
+        return cmbFingeringSystem;
     }
 }

@@ -8,15 +8,12 @@ import java.awt.event.KeyEvent;
  *
  * @author erik
  * @version %I%, %G%
- * @date 31/10/15
  * @since 1.0
+ * date 31/10/15
  */
 public class MainMenu extends JMenuBar {
 
     public MainMenu() {
-
-
-
 
         ///File Menu
         JMenu fileMenu = new JMenu("File");

@@ -10,6 +10,7 @@ import abc.notation.AccidentalType;
 import abc.notation.KeySignature;
 import abc.notation.Note;
 
+// THIS IS THE MODEL
 
 public class SRGModel {
 

@@ -19,7 +19,8 @@ public class Main {
             public void run() {
                 // initialize model
                 SRGModel model = new SRGModel();
-                new GUI(model).setVisible(true);
+                new Controller();
+
             }
         });
 
