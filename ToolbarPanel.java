@@ -13,6 +13,8 @@ import java.lang.*;
 
 public class ToolbarPanel extends JPanel {
 
+    private FormListener formListener;
+
     private StaffPanel staffPanel;
     private JLabel lblKey;
     private JLabel lblFingeringSystem;
@@ -62,33 +64,53 @@ public class ToolbarPanel extends JPanel {
         btnStart =  new JButton("Start");
 
         /* Listener s*/
+//        ActionListener updateActionListener = new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//
+//                System.out.println("Updating...");
+//
+//                //Scale
+//                System.out.println("Scale: " +cmbScale.getSelectedItem());
+//                Scale tmpScale = model.getScaleWithName((String)cmbScale.getSelectedItem());
+//
+//                //Key
+//                System.out.println("Key:" + cmbKey.getSelectedItem());
+//                Note tmpNote = model.getNoteWithName((String)cmbKey.getSelectedItem());
+//
+//                //Fingering system
+//                System.out.println(cmbFingeringSystem.getSelectedItem());
+//                // TODO: change position
+//
+//                if(tmpNote != null && tmpScale != null) {
+//                    System.out.println("setting key to: " + tmpNote.toString());
+//                    staffPanel.resetTune(tmpNote.getHeight(), tmpNote.getAccidental(), tmpScale.getId(), tmpNote);
+//                    //TODO send message to controller and update model
+//                }
+//                else System.err.println("Error selecting key or scale. Either one is nto found");
+//
+//
+//
+//
+//            }
+//        };
+
+
+
+
+        //ActionListeners -> update the ones that want to recieve notification
         ActionListener updateActionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String key = cmbKey.getSelectedItem().toString();
+                String system = cmbFingeringSystem.getSelectedItem().toString();
+                String scale = cmbScale.getSelectedItem().toString();
 
-                System.out.println("Updating...");
+                FormEvent ev = new FormEvent(this, key, system, scale);
+                if (formListener != null) {
+                    formListener.formEventOccured(ev);
 
-                //Scale
-                System.out.println("Scale: " +cmbScale.getSelectedItem());
-                Scale tmpScale = model.getScaleWithName((String)cmbScale.getSelectedItem());
-
-                //Key
-                System.out.println("Key:" + cmbKey.getSelectedItem());
-                Note tmpNote = model.getNoteWithName((String)cmbKey.getSelectedItem());
-
-                //Fingering system
-                System.out.println(cmbFingeringSystem.getSelectedItem());
-                // TODO: change position
-
-                if(tmpNote != null && tmpScale != null) {
-                    System.out.println("setting key to: " + tmpNote.toString());
-                    staffPanel.resetTune(tmpNote.getHeight(), tmpNote.getAccidental(), tmpScale.getId(), tmpNote);
-                    //TODO send message to controller and update model
                 }
-                else System.err.println("Error selecting key or scale. Either one is nto found");
-
-
-
 
             }
         };
@@ -110,5 +132,10 @@ public class ToolbarPanel extends JPanel {
         toolbar.add(btnStart);
 
         add(toolbar);
+    }
+
+    // function that recieves classes that wants to be notified
+    public void setFormListener(FormListener formListener) {
+        this.formListener = formListener;
     }
 }
