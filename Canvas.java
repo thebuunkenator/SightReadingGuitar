@@ -13,16 +13,23 @@ public class Canvas extends JPanel {
     final static int RADIUS = 2;
     final static int CENTER = 3;
 
+    final static int TOP = 4;
+    final static int BOTTOM = 5;
+
     private int rectangleMode = CORNER;
     private int ellipseMode = CENTER;
     private Color bgColor = Color.white;
     private Color strokeColor = Color.black;
     private Color fillColor = Color.cyan;
     private BasicStroke currentStroke = new BasicStroke();
+    private boolean fill = true;
+
+    private int horizontalAlign = CENTER;
+    private int vericalAlign = CENTER;
+
 
 
     public Canvas () {
-//        println("double buffered: " + isDoubleBuffered());
 
     }
 
@@ -31,9 +38,11 @@ public class Canvas extends JPanel {
     }
 
     public void line(int i1, int i2, int i3, int i4) {
+        //beginpoint, eindpoint)
         g2d.setColor(strokeColor);
         g2d.drawLine(i1, i2, i3, i4);
     }
+
 
     public void rect(int i1, int i2, int i3, int i4) {
 
@@ -41,19 +50,30 @@ public class Canvas extends JPanel {
         //CORNER
         switch (rectangleMode) {
             case CORNER:
-                g2d.setColor(fillColor);
-                g2d.fillRect(i1, i2, i3, i4);
+                if(fill) {
+                    g2d.setColor(fillColor);
+                    g2d.fillRect(i1, i2, i3, i4);
+                }
                 g2d.setColor(strokeColor);
                 g2d.drawRect(i1, i2, i3, i4);
                 break;
             case CORNERS:
-                g2d.fillRect(i1, i2, i3+i1, i4+i2);
+                if(fill) {
+                    g2d.setColor(fillColor);
+                    g2d.fillRect(i1, i2, i3+i1, i4+i2);
+                }
+                g2d.setColor(strokeColor);
+                g2d.drawRect(i1, i2, i3+i1, i4+i2);
                 break;
             default:
                 g2d.drawRect(i1, i2, i3, i4);
                 break;
         }
 
+    }
+
+    public void rect(float i1, float i2, float i3, float i4) {
+        this.rect((int) i1, (int) i2, (int) i3, (int) i4);
     }
 
     public void background(int r, int g, int b) {
@@ -79,6 +99,7 @@ public class Canvas extends JPanel {
     public void fill (int r, int g, int b) {
         fillColor = new Color(r,g,b);
         g2d.setColor(fillColor);
+        fill =  true;
     }
 
     public void println (String s){
@@ -99,7 +120,8 @@ public class Canvas extends JPanel {
 
     public void strokeWeight (float w) {
         //TODO copy van bestaande stroke en dan alleen weight aanpassen.
-        currentStroke = new BasicStroke(w);
+        currentStroke = new BasicStroke(w, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND);
+
         g2d.setStroke(currentStroke);
 
     }
@@ -110,28 +132,43 @@ public class Canvas extends JPanel {
 
         switch (ellipseMode) {
             case CENTER:
-                g2d.setColor(fillColor);
-                g2d.fillOval(x+dx, y+dy, r1, r2);
+                if(fill) {
+                    g2d.setColor(fillColor);
+                    g2d.fillOval(x - dx, y - dy, r1, r2);
+                }
                 g2d.setColor(strokeColor);
-                g2d.drawOval(x+dx, y+dy, r1, r2);
+                g2d.drawOval(x-dx, y-dy, r1, r2);
                 break;
             default:
-                g2d.fillOval(x, y, r1, r2);
+                if(fill) {
+                    g2d.setColor(fillColor);
+                    g2d.fillOval(x, y, r1, r2);
+                }
+                g2d.setColor(strokeColor);
                 g2d.drawOval(x, y, r1, r2);
                 break;
         }
 
     }
 
-    public void text(int x, int y, String s) {
+    public void text(String s, int x, int y) {
 
         int stringLen = (int)g2d.getFontMetrics().getStringBounds(s, g2d).getWidth();
         int stringHeight = (int)g2d.getFontMetrics().getStringBounds(s, g2d).getHeight();
 
-        int startx = stringLen/2;
-        int starty = stringHeight/2;
 
-        g2d.drawString(s,  x,  y);
+        int startx = 0;
+        int starty = 0;
+
+        if(horizontalAlign == CENTER) {
+            startx = stringLen/2;
+        }
+
+        if (vericalAlign == CENTER) {
+            starty = stringHeight/2;
+        }
+
+        g2d.drawString(s,  x+startx,  y+starty);
        // g2d.drawString(s, x, y);
     }
 
@@ -140,5 +177,18 @@ public class Canvas extends JPanel {
         g2d.drawImage(img, x, y, sizeX, sizeY, null);
     }
 
+    public void textSize(int size) {
+        //TODO set textsize
+    }
+
+    public void noFill() {
+        this.fill = false;
+    }
+
+    public void textAlign(int horAlign, int verAlign) {
+        //TODO set alignment of text
+        this.horizontalAlign = horAlign;
+        this.vericalAlign = verAlign;
+    }
 
 }

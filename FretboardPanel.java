@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.lang.*;
 import java.lang.System;
+import java.util.HashMap;
 
 
 /**
@@ -10,149 +11,275 @@ import java.lang.System;
  */
 public class FretboardPanel extends Canvas {
 
-    int IMG_WIDTH  = 778;
-    int IMG_HEIGHT = 487;
-
-    int POS0_FRET  = 43; //was 29
-    int POS12_FRET = 532;
-    int POS22_FRET = 745;
-
-    int MARGIN_TOP = 216; //was 30
-
-    int MARGIN_RIGHT = IMG_WIDTH - POS22_FRET;
-    int MARGIN_BOTTOM = IMG_HEIGHT - 278;
-
-    //int margin;// = 29;
-    int marginLeft;
-    int marginRight;
+    float margin;
     int marginTop;
-    int marginBottom;
-
-    double rcTop;
-    double rcBottom;
-
+    int marginLeft;
     int fretboardWidth;
     int fretboardHeight;
-    int snaarhoogte;
-    int numFrets = 22;
-    double scale;// = ((516-38)*2);
-    double ratio;
+    double stringLength;
+    float snaarhoogte;
+    double scale;
+    int numFrets = 21;
+    boolean useFrame;
+    String[] tuning = { "e", "b", "g", "d", "a", "e" };
+    private int[] position = { 0, 5};
 
-    private Image fretboard;
-
-    private int y_offset_image;
-
-    /**
-     * Initialisaties
-     */
-    private void setup() {
-        println("Setup...");
-
-    }
+    HashMap <String, Integer> noteNumbers = new HashMap<String, Integer>();
 
     /**
      * In tegenstelling tot Processing wordt draw niet continu aangeroepen
      */
     private void draw() {
 
+        background(125,0,0);
+
         Dimension size = new Dimension();
         getSize(size);
 
-        ratio = size.getWidth()/IMG_WIDTH;
+        margin = 5;
+        fretboardWidth = (int)(size.width - 2* margin);
+        marginLeft=(int)margin;
 
-        //scale = ((516-38)*2);
-//        Dimension size = new Dimension(IMG_WIDTH,IMG_HEIGHT);
-//        setPreferredSize(size);
-
-        background(83,0,0);
-
-        // drawClef
-        loadImage();
-
-
-//        int width = (int)(size.getWidth());
-//        int height = (int)(size.getWidth()*ratio);
-        int width = (int)(IMG_WIDTH*ratio);
-        int height = (int)(IMG_HEIGHT*ratio);
-        y_offset_image = (int)((getHeight() -height)*0.5); // center in panel
-        //y_offset_image = 0;
-
-        drawImage(fretboard, 0, y_offset_image, width, height);
-        //drawImage(fretboard, 0, 0, width, height);
-
-        //margin =
-        marginLeft = (int)(POS0_FRET*ratio);
-        marginRight = (int)(16*ratio);
-        marginTop = (int)(MARGIN_TOP*ratio+y_offset_image);
-        marginBottom = 0;
-        fretboardWidth=(int)((POS22_FRET-POS0_FRET)*ratio);
-        fretboardHeight=(int)((278-MARGIN_TOP)*ratio);
-        snaarhoogte = (int)(fretboardHeight/6.0);
-        scale = (int)(((POS12_FRET-POS0_FRET)*2)*ratio);
-
-//        drawWood();
-        //drawFrets();
-//        drawDots();
-//        drawStrings();
-        calculate();
-    }
-
-    private void loadImage() {
-        if (fretboard == null) {
-            fretboard = new ImageIcon("img/gitaar_part.png").getImage();
+        fretboardHeight = 160;
+        if(size.height<160) {
+            fretboardHeight = size.height;
         }
 
-    }
+        if(size.width<=685) {
+            numFrets = 12;
+            scale = fretboardWidth * 2;
+        }
 
+        if(size.width > 685 && size.width <= 892 ) {
+
+            numFrets = 16;
+            scale = fretboardWidth * 1.8;
+        }
+
+        if(size.width > 892 && size.width <= 1125 ) {
+            numFrets = 20;
+            scale = fretboardWidth * 1.6;
+        }
+
+        if(size.width > 1125) {
+            numFrets = 24;
+            scale = fretboardWidth*1.33;
+        }
+
+        snaarhoogte =(int) ((fretboardHeight - 32)/5);
+        stringLength = fretboardWidth;
+
+
+        //center fretboard
+        marginTop = (int)((size.height - fretboardHeight)*0.5);
+        drawWood();
+        drawFrets();
+        drawStrings();
+        drawDots();
+        drawFingerFrame();
+    }
 
 
     //==========FRETBOARD==========
 
+    void drawNoteWithName(int stringNumber, int fret, String name)
+    {
+
+        double gemiddelde;
+
+        fill(255, 255,255);
+        stroke(0,0,0);
+        if (fret == 0 ){
+            gemiddelde= -margin/2;
+        } else {
+            gemiddelde = (distanceFromNut(scale,fret)+distanceFromNut(scale,fret-1))/2;
+        }
+        ellipse ((int)(margin+gemiddelde), (int)(margin+snaarhoogte*(stringNumber-1)),30,30);
+        textSize(16);
+        fill(0,0,0);
+        text(name, (int)(margin+gemiddelde), (int)(margin+snaarhoogte*(stringNumber-1)));
+    }
+
+
+    //Draw the finger box
+    void drawFingerFrame() {
+        if(useFrame) {
+            //println("position: " + position[0], position[1]);
+            rectMode(CORNER);
+            stroke(255,0,0);
+            noFill();
+            strokeWeight(5);
+            if(position[0]==0) {
+                rect(   0,
+                        marginTop,
+                        (float)(distanceFromNut(scale,position[1])+marginLeft), //marginLeft ivm 0 op eerste parameter
+                        fretboardHeight);
+            }
+            else
+            {
+                rect(   (float)(distanceFromNut(scale,position[0]-1)+marginLeft),
+                        marginTop,
+                        (float)(distanceFromNut(scale,position[1])-distanceFromNut(scale,position[0]-1)),
+                        fretboardHeight);
+                //rect((float)(margin + distanceFromNut(scale,position[0]-1)),fretboardHeight-margin*1/3, (float)(margin + distanceFromNut(scale,position[1])), margin*1/3);
+            }
+            strokeWeight(1);
+        }
+    }
+
+
+    //TODO: integreren met
+    void drawNoteOnString(String noteName, int stringNumber)
+    {
+        //draw note on string
+        //f.e. draw g on 6st string
+        //get note from open string
+        int openString = noteNumbers.get(tuning[stringNumber-1]);
+
+        int noteToDraw = noteNumbers.get(noteName);
+
+        if(noteToDraw != -1 && openString != -1)
+        {
+
+            int fret = noteToDraw - openString;
+
+            if (fret<0) {
+                fret+=12;
+            }
+
+            //TODO: alleen tonen binnen het vlak werkt nog niet
+            int octave = fret + 12;
+            //if (useFrame == true && fret >= position[0] && fret<=position[1])
+            {
+                drawNoteWithName(stringNumber, fret, noteName);
+
+
+                if (octave<numFrets)
+                {
+                    //if (useFrame == true && octave >= position[0] && octave<=position[1])
+                    {
+                        drawNoteWithName(stringNumber, octave, noteName);
+                    }
+                }
+            }
+
+        }
+        else
+        {
+            System.out.println("not found");
+            System.out.println(openString);
+            System.out.println(noteToDraw);
+        }
+
+
+    }
+
+
+    double distanceFromNut (double s, int n){
+        //float s = 100;
+        //d distance from nut, s scale length, n = fretnumber
+        return s-(s/Math.pow(2.0, (n / 12.0)));
+
+
+    }
+
+
+
+
+    int getFretbyNoteOnString(String _note, int _stringNumber)
+    {
+        //dit wordt de nieuwe generieke functie
+        System.out.println("=>getFretbyNoteOnString");
+        System.out.println("note: " + _note.toLowerCase());
+        System.out.println("string: " + _stringNumber);
+        String opString =tuning[_stringNumber-1];
+
+        int noteToDraw = noteNumbers.get(_note);
+        int openString = noteNumbers.get(opString);
+        System.out.println("noteToDraw: " + noteToDraw);
+        System.out.println("openString: " + openString);
+
+        int fret = -1;
+
+        if(noteToDraw != -1 && openString != -1)
+        {
+            //both found
+            fret = noteToDraw - openString;
+            if (fret<0) {
+                fret+=12;
+            }
+        }
+        else
+        {
+            System.out.println("...not found");
+
+        }
+        return fret;
+    }
+
+//==========FRETBOARD==========
+
     void drawWood() {
-        fill(112, 74, 55);
-        stroke(0, 0, 0);
+        //fill(161,123, 88); //licht bruin (ear master)
+        fill(112, 74,55);
+        stroke(216,181, 120);
         rectMode(CORNER);
-        rect(marginLeft, marginTop , fretboardWidth, fretboardHeight );
+        rect(marginLeft, marginTop, fretboardWidth, fretboardHeight);
 
     }
 
     void drawStrings() {
-        strokeWeight(5);
-        stroke(223, 223, 223);
 
-        for (int i = 0; i < 6; i++) {
-            line(marginLeft, (int)(marginTop + snaarhoogte * (i+0.5)), fretboardWidth+marginLeft, (int)(marginTop + snaarhoogte * (i+0.5)));
+        /*
+        16 boven en onder vrij
+        esnaar 3 dik, a en d 2, rext 1 px
+         */
+        stroke(214,214,214);
+
+        strokeWeight(1);
+        for (int i = 0; i<6; i++)
+        {
+            if (i ==3 || i==4)
+                strokeWeight(2);
+            if (i==5)
+                strokeWeight(3);
+            line(0, (int)(marginTop+snaarhoogte*i)+16,(int)fretboardWidth,(int)(marginTop+snaarhoogte*i)+16);
         }
 
         //shadow
-        strokeWeight(5);
+        strokeWeight(1);
         stroke(0, (float)0.25);
-        for (int i = 0; i < 6; i++) {
-            line(marginLeft, (int)(marginTop + snaarhoogte * (i+0.5)+snaarhoogte*0.25), fretboardWidth+marginLeft, (int)(marginTop + snaarhoogte * (i+0.5)+snaarhoogte*0.25));
+        for (int i = 0; i<6; i++)
+        {
+
+            if (i ==3 || i==4)
+                strokeWeight(2);
+            if (i==5)
+                strokeWeight(3);
+            line(0, (int)(marginTop+snaarhoogte*i)+16+3,(int)fretboardWidth,(int)(marginTop+snaarhoogte*i)+16+3);
         }
         strokeWeight(1);
     }
-    //
-//    void drawFrets() {
-//        strokeWeight((int)(4*ratio));
-//        stroke (200,200,200);
-//        for (int i = 0; i < numFrets + 1; i++) {
-//            line((int)(marginLeft + distanceFromNut(scale, i)),  (int) (marginTop) , (int) (marginLeft + distanceFromNut(scale, i)), (int)((fretboardHeight)+ marginTop ));
-//        }
 
+    void drawFrets() {
+        stroke(206,181,139);
+        //strokeWeight(5);
+        for (int i = 0; i<numFrets+1; i++)
+        {
+            if (i==0)
+                strokeWeight(7);
+            else
+                strokeWeight(4);
+            line((int)(margin + distanceFromNut(scale,i)),(int)(marginTop),
+                    (int)(margin + distanceFromNut(scale,i)), (int)(fretboardHeight+marginTop));
+        }
+        strokeWeight(1);
         //0-fret
-//        stroke(240, 240, 240);
-//        strokeWeight(15);
-//        line((int) (margin + distanceFromNut(scale, 0)), fretboardHeight - margin * 2 / 3, (int) (margin + distanceFromNut(scale, 0)), margin * 2 / 3);
-//        stroke(152, 152, 152);
-
-
-    double distanceFromNut(double s, int n) {
-        //float s = 100;
-        //d distance from nut, s scale length, n = fretnumber
-        return s - (s / Math.pow(2.0, (n / 12.0)));
-
-
+          //ca 32 pixels ervoor vrij houden
+//        stroke (240,240,240);
+//        strokeWeight(7);
+//        line((int)(margin + distanceFromNut(scale,0)),(int)(fretboardHeight-margin*2/3), (int)(margin + distanceFromNut(scale,0)),(int)(margin*2/3));
+//        stroke(152,152,152);
     }
 
     void drawDots() {
@@ -160,98 +287,82 @@ public class FretboardPanel extends Canvas {
         dot(5);
         dot(7);
         doubleDot(12);
+        dot(15);
+        dot(17);
+        dot(19);
+        doubleDot(24);
     }
 
-    void dot(int n) {
-        ellipseMode(CENTER);
-        fill(188, 188, 188);
-        stroke(0, 0, 0);
-        double gemiddelde = (distanceFromNut(scale, n) + distanceFromNut(scale, n - 1)) / 2;
-        ellipse(marginLeft + (int) gemiddelde, fretboardHeight / 2, 15, 15);
-    }
-    //
-    void doubleDot(int n) {
-        ellipseMode(CENTER);
-        double gemiddelde = (distanceFromNut(scale, n) + distanceFromNut(scale, n - 1)) / 2;
-        ellipse((int)(marginLeft + gemiddelde), (int)(marginTop + snaarhoogte * 1.5), 15, 15);
-        ellipse((int)(marginLeft + gemiddelde), (int)(marginTop + snaarhoogte * 3.5), 15, 15);
-    }
-
-
-    void calculate()
+    void dot(int n)
     {
+        ellipseMode(CENTER);
+        fill(230, 192,111);
+        stroke(255,255,255);
+        double gemiddelde = (distanceFromNut(scale,n)+distanceFromNut(scale,n-1))/2;
+        ellipse ((int)(marginLeft+gemiddelde), (int)(fretboardHeight*0.5+marginTop),12,12);
 
-        // sommige variabelen hernoemen tot iets logisch
+    }
 
-        /**
-         * in:
-         * numFrets in de foto
-         * POS_FINGER - omdat er geen -1 fret is en je hem soms handmatig wil bepalen
-         * POS0_FRET - xwaarde-pixel in de foto
-         * POS12_FRET x waarde pixel in foto
-         * POS22_FRET x waarde pixel in defoto
-         * y waarde pixel elke snaar op 0 fret en 22 fret
-         */
-
-        int[] fretPositions = new int[numFrets+1];
-        int[] fingerPositions = new int[numFrets+1];
-        int[][] stringPositions = new int[6][numFrets+1];
-        int POS0_FINGER = 30; // deze hard meenemen
-
-        //fretPositions - positie van de fret
-        for(int i=0; i<23; i++) {
-            fretPositions[i] =  (int)(POS0_FRET+distanceFromNut(((POS12_FRET-POS0_FRET)*2), i));
-//            System.out.println("Fret: " + i + ": " + fretPositions [i]);
-
-        }
-
-        //x posities van de vinger (aanduiding van noot)
-        fingerPositions[0] = POS0_FINGER;
-        for(int i=1; i<=numFrets; i++) {
-            fingerPositions[i] = (int)((fretPositions [i] + fretPositions[i-1])/2);
-
-//           System.out.println("Finger: " + i + ": " + fingerPositions[i]);
-        }
-
-        // y posities van de snaar op fret 0 en 22
-        int[][] s = {   {1,	221, 209},
-                        {2, 232, 224},
-                        {3,	242, 239},
-                        {4,	253, 253},
-                        {5,	263, 268},
-                        {6,	274, 283}};
-
-        double rc_b[][] = new double [6][6]; //[richtingscoefficent a][b]
-
-        for(int snaar = 0;snaar<6; snaar++){
-            rc_b[snaar][0]=((double)(s[snaar][2]-s[snaar][1])/(double)(POS22_FRET-POS0_FRET));
-            rc_b[snaar][1] = (s[snaar][1])-(rc_b[snaar][0]*POS0_FRET);;
-           // System.out.println("y=" + rc_b[snaar][0] + "x + " + rc_b[snaar][1]);
-        }
-
-        for(int snaar = 0; snaar<6; snaar ++) {
-            for (int i = 0; i <= numFrets; i++) {
-                stringPositions[snaar][i] = (int) (rc_b[snaar][0] * fretPositions[i] + rc_b[snaar][1]);
-//                System.out.println("string " + (snaar + 1) +" pos: " + i + ": " + stringPositions[snaar][i]);
-                stroke(0,0,0);
-                fill(255,255,255);
-                int x=(int)((fingerPositions[i]-15)*ratio);
-                int y=(int)((stringPositions[snaar][i]-12)*ratio+y_offset_image);
-                int r = (int)(15*ratio);
-                ellipseMode(CENTER);
-                ellipse(x, y, r, r);
-                //stroke(0,0,0);
-                //text(x,y, "Eb");
-
-            }
-        }
-
+    void doubleDot(int n)
+    {
+        ellipseMode(CENTER);
+        double gemiddelde = (distanceFromNut(scale,n)+distanceFromNut(scale,n-1))/2;
+        ellipse ((int)(marginLeft+gemiddelde), (int)(marginTop+16+snaarhoogte*1.5),12,12);
+        ellipse ((int)(marginLeft+gemiddelde), (int)(marginTop+16+snaarhoogte*3.5),12,12);
     }
 
 
     // Necessities
     public FretboardPanel() {
-        setup();
+
+        fretboardWidth = 1200;
+        fretboardHeight = 300;
+
+        //surface.setResizable(true);
+        //  for (int i = 0; i<15; i++)
+        //  {
+        //    log (i, distanceFromNut(1,i));
+        //  }
+
+        margin = 50;
+        marginLeft = 50;
+        marginTop = 50;
+        numFrets=15;
+        useFrame=true;
+        textAlign(CENTER, CENTER);
+
+        addNoteNumbers();
+
+    }
+
+    public void addNoteNumbers() {
+        noteNumbers.put("b#", 0);
+        noteNumbers.put("c", 0);
+        noteNumbers.put("c#", 1);
+        noteNumbers.put("db", 1);
+        noteNumbers.put("d", 2);
+        noteNumbers.put("d#", 3);
+        noteNumbers.put("eb", 3);
+        noteNumbers.put("e", 4);
+        noteNumbers.put("fb", 4);
+        noteNumbers.put("e#", 5);
+        noteNumbers.put("f", 5);
+        noteNumbers.put("f#", 6);
+        noteNumbers.put("gb", 6);
+        noteNumbers.put("g", 7);
+        noteNumbers.put("ab", 8);
+        noteNumbers.put("g#", 8);
+        noteNumbers.put("a", 9);
+        noteNumbers.put("a#", 10);
+        noteNumbers.put("bb", 10);
+        noteNumbers.put("b", 11);
+        noteNumbers.put("cb", 11);
+    }
+
+    public void setPosition(int start, int eind) {
+        position[0] = start;
+        position[1] = eind;
+
     }
 
     @Override
