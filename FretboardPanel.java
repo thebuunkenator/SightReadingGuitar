@@ -1,5 +1,3 @@
-
-import javax.swing.*;
 import java.awt.*;
 import java.lang.*;
 import java.lang.System;
@@ -12,6 +10,7 @@ import java.util.HashMap;
 public class FretboardPanel extends Canvas {
 
     float margin;
+    int extraRuimteKam;
     int marginTop;
     int marginLeft;
     int fretboardWidth;
@@ -22,7 +21,7 @@ public class FretboardPanel extends Canvas {
     int numFrets = 21;
     boolean useFrame;
     String[] tuning = { "e", "b", "g", "d", "a", "e" };
-    private int[] position = { 0, 5};
+    private int[] position = { 1, 5};
 
     HashMap <String, Integer> noteNumbers = new HashMap<String, Integer>();
 
@@ -37,21 +36,26 @@ public class FretboardPanel extends Canvas {
         getSize(size);
 
         margin = 5;
-        fretboardWidth = (int)(size.width - 2* margin);
-        marginLeft=(int)margin;
+        extraRuimteKam = 32;
+        //TODO Extra ruimte voor de kam (nul-fret) van 32 px
+        // nog wat te weinig ruimte links om noten te plaatsen.
+        // ook nog wat ruimte rechts over laten
+        fretboardWidth = (int)(size.width - 2* margin - extraRuimteKam);
+        marginLeft=(int)margin+extraRuimteKam;
 
         fretboardHeight = 160;
         if(size.height<160) {
             fretboardHeight = size.height;
         }
 
+        //TODO scale is nog een klein beetje onnauwkeurig
+        //Varieer de lengte van de hals, afhankelijk van het scherm. Naar analogie van Earmaster
         if(size.width<=685) {
             numFrets = 12;
             scale = fretboardWidth * 2;
         }
 
         if(size.width > 685 && size.width <= 892 ) {
-
             numFrets = 16;
             scale = fretboardWidth * 1.8;
         }
@@ -70,8 +74,10 @@ public class FretboardPanel extends Canvas {
         stringLength = fretboardWidth;
 
 
-        //center fretboard
+        //center fretboard verticaal
         marginTop = (int)((size.height - fretboardHeight)*0.5);
+
+        //teken de onderdelen
         drawWood();
         drawFrets();
         drawStrings();
@@ -81,6 +87,131 @@ public class FretboardPanel extends Canvas {
 
 
     //==========FRETBOARD==========
+
+
+
+    //Draw the finger box
+    void drawFingerFrame() {
+        if(useFrame) {
+            //println("position: " + position[0], position[1]);
+            rectMode(CORNER);
+            stroke(255,0,0);
+            noFill();
+            strokeWeight(5);
+            if(position[0]==0) {
+                rect(   margin,
+                        marginTop,
+                        (float)(distanceFromNut(scale,position[1])+extraRuimteKam), //marginLeft ivm 0 op eerste parameter
+                        fretboardHeight);
+            }
+            else
+            {
+                rect(   (float)(distanceFromNut(scale,position[0]-1)+marginLeft),
+                        marginTop,
+                        (float)(distanceFromNut(scale,position[1])-distanceFromNut(scale,position[0]-1)),
+                        fretboardHeight);
+                //rect((float)(margin + distanceFromNut(scale,position[0]-1)),fretboardHeight-margin*1/3, (float)(margin + distanceFromNut(scale,position[1])), margin*1/3);
+            }
+            strokeWeight(1);
+        }
+    }
+
+
+
+//==========FRETBOARD==========
+
+    void drawWood() {
+        //fill(161,123, 88); //licht bruin (ear master)
+        fill(112, 74,55);
+        stroke(216,181, 120);
+        rectMode(CORNER);
+        rect(margin, marginTop, fretboardWidth + marginLeft-margin, fretboardHeight);
+
+    }
+
+    void drawStrings() {
+
+        int distanceFromEdge=16; // afstand tussen de snaar en de rand van de hals
+
+        stroke(214,214,214);
+        strokeWeight(1);
+        for (int i = 0; i<6; i++)
+        {
+            if (i ==3 || i==4)
+                strokeWeight(2);
+            if (i==5)
+                strokeWeight(3);
+            line((int)margin, (int)(marginTop+snaarhoogte*i)+distanceFromEdge,
+                    (int)fretboardWidth+extraRuimteKam+marginLeft,(int)(marginTop+snaarhoogte*i)+distanceFromEdge);
+        }
+
+        //shadow
+        strokeWeight(1);
+        stroke(0, (float)0.25);
+        for (int i = 0; i<6; i++)
+        {
+            if (i ==3 || i==4) {
+                strokeWeight(2);
+            }
+            if (i==5) {
+                strokeWeight(3);
+            }
+            line(0, (int) (marginTop + snaarhoogte * i) + 16 + 3, (int) fretboardWidth, (int) (marginTop + snaarhoogte * i) + 16 + 3);
+        }
+        strokeWeight(1);
+    }
+
+    void drawFrets() {
+        stroke(206,181,139);
+
+        for (int i = 0; i<numFrets+1; i++)
+        {
+            if (i==0) // kam iets breder
+                strokeWeight(7);
+            else
+                strokeWeight(4);
+            line((int)(margin + extraRuimteKam + distanceFromNut(scale,i)),(int)(marginTop),
+                    (int)(margin + extraRuimteKam + distanceFromNut(scale,i)), (int)(fretboardHeight+marginTop));
+        }
+        strokeWeight(1);
+        //0-fret
+          //ca 32 pixels ervoor vrij houden
+
+//        stroke (240,240,240);
+//        strokeWeight(7);
+//        line((int)(margin + distanceFromNut(scale,0)),(int)(fretboardHeight-margin*2/3), (int)(margin + distanceFromNut(scale,0)),(int)(margin*2/3));
+//        stroke(152,152,152);
+    }
+
+    void drawDots() {
+        dot(3);
+        dot(5);
+        dot(7);
+        doubleDot(12);
+        dot(15);
+        dot(17);
+        dot(19);
+        doubleDot(24);
+    }
+
+    void dot(int n)
+    {
+        ellipseMode(CENTER);
+        fill(230, 192,111);
+        stroke(255,255,255);
+        double gemiddelde = (distanceFromNut(scale,n)+distanceFromNut(scale,n-1))/2;
+        ellipse ((int)(marginLeft+gemiddelde), (int)(fretboardHeight*0.5+marginTop),12,12);
+
+    }
+
+    void doubleDot(int n)
+    {
+        ellipseMode(CENTER);
+        double gemiddelde = (distanceFromNut(scale,n)+distanceFromNut(scale,n-1))/2;
+        ellipse ((int)(marginLeft+gemiddelde), (int)(marginTop+16+snaarhoogte*1.5),12,12);
+        ellipse ((int)(marginLeft+gemiddelde), (int)(marginTop+16+snaarhoogte*3.5),12,12);
+    }
+
 
     void drawNoteWithName(int stringNumber, int fret, String name)
     {
@@ -98,33 +229,6 @@ public class FretboardPanel extends Canvas {
         textSize(16);
         fill(0,0,0);
         text(name, (int)(margin+gemiddelde), (int)(margin+snaarhoogte*(stringNumber-1)));
-    }
-
-
-    //Draw the finger box
-    void drawFingerFrame() {
-        if(useFrame) {
-            //println("position: " + position[0], position[1]);
-            rectMode(CORNER);
-            stroke(255,0,0);
-            noFill();
-            strokeWeight(5);
-            if(position[0]==0) {
-                rect(   0,
-                        marginTop,
-                        (float)(distanceFromNut(scale,position[1])+marginLeft), //marginLeft ivm 0 op eerste parameter
-                        fretboardHeight);
-            }
-            else
-            {
-                rect(   (float)(distanceFromNut(scale,position[0]-1)+marginLeft),
-                        marginTop,
-                        (float)(distanceFromNut(scale,position[1])-distanceFromNut(scale,position[0]-1)),
-                        fretboardHeight);
-                //rect((float)(margin + distanceFromNut(scale,position[0]-1)),fretboardHeight-margin*1/3, (float)(margin + distanceFromNut(scale,position[1])), margin*1/3);
-            }
-            strokeWeight(1);
-        }
     }
 
 
@@ -183,9 +287,6 @@ public class FretboardPanel extends Canvas {
 
     }
 
-
-
-
     int getFretbyNoteOnString(String _note, int _stringNumber)
     {
         //dit wordt de nieuwe generieke functie
@@ -216,101 +317,6 @@ public class FretboardPanel extends Canvas {
         }
         return fret;
     }
-
-//==========FRETBOARD==========
-
-    void drawWood() {
-        //fill(161,123, 88); //licht bruin (ear master)
-        fill(112, 74,55);
-        stroke(216,181, 120);
-        rectMode(CORNER);
-        rect(marginLeft, marginTop, fretboardWidth, fretboardHeight);
-
-    }
-
-    void drawStrings() {
-
-        /*
-        16 boven en onder vrij
-        esnaar 3 dik, a en d 2, rext 1 px
-         */
-        stroke(214,214,214);
-
-        strokeWeight(1);
-        for (int i = 0; i<6; i++)
-        {
-            if (i ==3 || i==4)
-                strokeWeight(2);
-            if (i==5)
-                strokeWeight(3);
-            line(0, (int)(marginTop+snaarhoogte*i)+16,(int)fretboardWidth,(int)(marginTop+snaarhoogte*i)+16);
-        }
-
-        //shadow
-        strokeWeight(1);
-        stroke(0, (float)0.25);
-        for (int i = 0; i<6; i++)
-        {
-
-            if (i ==3 || i==4)
-                strokeWeight(2);
-            if (i==5)
-                strokeWeight(3);
-            line(0, (int)(marginTop+snaarhoogte*i)+16+3,(int)fretboardWidth,(int)(marginTop+snaarhoogte*i)+16+3);
-        }
-        strokeWeight(1);
-    }
-
-    void drawFrets() {
-        stroke(206,181,139);
-        //strokeWeight(5);
-        for (int i = 0; i<numFrets+1; i++)
-        {
-            if (i==0)
-                strokeWeight(7);
-            else
-                strokeWeight(4);
-            line((int)(margin + distanceFromNut(scale,i)),(int)(marginTop),
-                    (int)(margin + distanceFromNut(scale,i)), (int)(fretboardHeight+marginTop));
-        }
-        strokeWeight(1);
-        //0-fret
-          //ca 32 pixels ervoor vrij houden
-//        stroke (240,240,240);
-//        strokeWeight(7);
-//        line((int)(margin + distanceFromNut(scale,0)),(int)(fretboardHeight-margin*2/3), (int)(margin + distanceFromNut(scale,0)),(int)(margin*2/3));
-//        stroke(152,152,152);
-    }
-
-    void drawDots() {
-        dot(3);
-        dot(5);
-        dot(7);
-        doubleDot(12);
-        dot(15);
-        dot(17);
-        dot(19);
-        doubleDot(24);
-    }
-
-    void dot(int n)
-    {
-        ellipseMode(CENTER);
-        fill(230, 192,111);
-        stroke(255,255,255);
-        double gemiddelde = (distanceFromNut(scale,n)+distanceFromNut(scale,n-1))/2;
-        ellipse ((int)(marginLeft+gemiddelde), (int)(fretboardHeight*0.5+marginTop),12,12);
-
-    }
-
-    void doubleDot(int n)
-    {
-        ellipseMode(CENTER);
-        double gemiddelde = (distanceFromNut(scale,n)+distanceFromNut(scale,n-1))/2;
-        ellipse ((int)(marginLeft+gemiddelde), (int)(marginTop+16+snaarhoogte*1.5),12,12);
-        ellipse ((int)(marginLeft+gemiddelde), (int)(marginTop+16+snaarhoogte*3.5),12,12);
-    }
-
 
     // Necessities
     public FretboardPanel() {
