@@ -106,12 +106,12 @@ public class SRGModel {
     }
 
     void initSystems() {
-        fingeringSystems.add(new FingeringSystem("C (CAGED)", 5, -3, 0));
-        fingeringSystems.add(new FingeringSystem("A (CAGED)", 5, -1, 3));
-        fingeringSystems.add(new FingeringSystem("G (CAGED)", 6, -4, 0));
-        fingeringSystems.add(new FingeringSystem("E (CAGED)", 6, -1, 2));
-        fingeringSystems.add(new FingeringSystem("D (CAGED)", 4, -1, 3));
-        fingeringSystems.add(new FingeringSystem("E (3 per string)", 6, 0, 5));
+        fingeringSystems.add(new FingeringSystem(FingeringPosition.C_CAGED, 5, -3, 0));
+        fingeringSystems.add(new FingeringSystem(FingeringPosition.A_CAGED, 5, -1, 3));
+        fingeringSystems.add(new FingeringSystem(FingeringPosition.G_CAGED, 6, -4, 0));
+        fingeringSystems.add(new FingeringSystem(FingeringPosition.E_CAGED, 6, -1, 2));
+        fingeringSystems.add(new FingeringSystem(FingeringPosition.D_CAGED, 4, -1, 3));
+        fingeringSystems.add(new FingeringSystem(FingeringPosition.E_3_PER_STRING, 6, 0, 5));
     }
 
 
