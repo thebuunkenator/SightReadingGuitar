@@ -1,3 +1,5 @@
+package model;
+
 public class MidiNote {
 
     private int midiNumber;

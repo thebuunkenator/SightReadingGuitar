@@ -1,11 +1,7 @@
-
-
-import abc.notation.KeySignature;
-import abc.notation.Note;
+package views;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.*;
 //import java.lang.System;

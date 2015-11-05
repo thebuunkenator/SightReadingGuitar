@@ -1,3 +1,4 @@
+package views;
 
 import abc.notation.AccidentalType;
 import abc.notation.KeySignature;

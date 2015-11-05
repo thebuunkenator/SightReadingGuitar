@@ -1,3 +1,5 @@
+package controller;
+
 import java.lang.System;
 
 //Generic functions

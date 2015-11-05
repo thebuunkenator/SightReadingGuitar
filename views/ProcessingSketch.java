@@ -1,3 +1,6 @@
+package views;
+
+import model.SRGModel;
 import processing.core.*;
 
 /**

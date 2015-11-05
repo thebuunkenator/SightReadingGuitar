@@ -1,3 +1,5 @@
+package views;
+
 import java.awt.*;
 import java.lang.*;
 import java.lang.System;
@@ -7,7 +9,7 @@ import java.util.HashMap;
 /**
  * Created by buu1 on 22-10-2015.
  */
-public class FretboardPanel extends Canvas {
+public class FretboardPanel extends views.Canvas {
 
     float margin;
     int extraRuimteKam;

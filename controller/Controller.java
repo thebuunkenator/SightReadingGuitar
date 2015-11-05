@@ -1,4 +1,11 @@
+package controller;
+
 import abc.notation.Note;
+import model.SRGModel;
+import model.Scale;
+import views.GUI;
+import views.StaffPanel;
+import views.ToolbarPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -64,7 +71,7 @@ public class Controller {
                 //TODO: model.setCurrentFingeringSystem(tmpFS);
 
                 if (tmpNote != null && tmpScale != null) {
-                    //update GUI
+                    //update
                     staff.resetTune(key, scale);
 
                     //TODO update fretboard image

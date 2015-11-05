@@ -1,5 +1,6 @@
+package model;
+
 import java.lang.*;
-import java.lang.System;
 import java.util.ArrayList;
 import java.util.HashMap;
 

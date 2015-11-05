@@ -1,3 +1,7 @@
+package controller;
+
+import controller.Controller;
+
 import javax.swing.*;
 
 /**
