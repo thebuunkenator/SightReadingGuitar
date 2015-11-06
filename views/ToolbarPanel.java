@@ -33,7 +33,7 @@ public class ToolbarPanel extends JPanel {
         add(new JLabel("System:"));
         add(cmbFingeringSystem);
         add(btnStart);
-Ma    }
+    }
 
     public void populateKeysCombo(String[] list ) {
         //cmbKey
