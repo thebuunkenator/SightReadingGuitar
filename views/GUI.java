@@ -17,13 +17,13 @@ public class GUI extends JFrame {
 
     public GUI(){
         setTitle(APP_NAME);
+
         setLookAndFeel();
-        System.setProperty("apple.laf.useScreenMenuBar", "true");
-        System.setProperty("com.apple.mrj.application.apple.menu.about.name", APP_NAME);
 
         //Create a new Frame
         setSize(800, 600); //The window Dimensions
-        setLocationRelativeTo(null);
+        setMinimumSize(new Dimension(600,450));
+        setLocationRelativeTo(null); //center window
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 
@@ -71,7 +71,11 @@ public class GUI extends JFrame {
 
 
     private void setLookAndFeel () {
-        // set the look and feel
+        //TODO: De volgende werkt nog niet (appname in title balk)
+
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name", APP_NAME);
+
         try {
             //Native platform Look and Feel
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -88,7 +92,7 @@ public class GUI extends JFrame {
             e.printStackTrace();
         }
 
-        //TODO: De volgende werkt nog niet (appname in title balk)
+
 
     }
 

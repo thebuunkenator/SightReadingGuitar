@@ -17,9 +17,6 @@ public class ToolbarPanel extends JPanel {
 
     public ToolbarPanel() {
 
-        JToolBar toolbar = new JToolBar();
-        toolbar.setRollover(true);
-
         // Set up Combobox Keys
         cmbKey = new JComboBox();
         cmbScale = new JComboBox();
@@ -29,16 +26,14 @@ public class ToolbarPanel extends JPanel {
         setLayout(new FlowLayout(FlowLayout.LEFT));
 
         // Add items to toolbar
-        toolbar.add(new JLabel("Key"));
-        toolbar.add(cmbKey);
-        toolbar.add(new JLabel("Scale:"));
-        toolbar.add(cmbScale);
-        toolbar.add(new JLabel("System:"));
-        toolbar.add(cmbFingeringSystem);
-        toolbar.add(btnStart);
-
-        add(toolbar);
-    }
+        add(new JLabel("Key"));
+        add(cmbKey);
+        add(new JLabel("Scale:"));
+        add(cmbScale);
+        add(new JLabel("System:"));
+        add(cmbFingeringSystem);
+        add(btnStart);
+Ma    }
 
     public void populateKeysCombo(String[] list ) {
         //cmbKey

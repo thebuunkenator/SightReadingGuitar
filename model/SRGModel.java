@@ -17,13 +17,6 @@ public class SRGModel {
 
     final static String scaleNotesDefault[] = {"c", "d", "e", "f", "g", "a", "b"};
 
-    float margin;
-    int fretboardWidth;
-    int fretboardHeight;
-    double stringLength;
-    float snaarhoogte;
-    double scale;
-    int numFrets = 21;
     String[] tuning = {"e", "b", "g", "d", "a", "e" };
 
     int[] midiTuning = {64, 59, 55, 50, 45, 40}; // midi noot toon hoogte nodig om vertaling naar notenschrift te maken
@@ -31,7 +24,6 @@ public class SRGModel {
     int[] majorScale = {2, 2, 1, 2, 2, 2, 1};
     int[] position = {0, 5};
 
-    boolean useFrame;
     String sharps[] = {"-", "f#", "c#", "g#", "d#", "a#", "e#", "b#"};
     String flats[] = {"-", "bb", "eb", "ab", "db", "gb", "cb", "fb"};
     String scaleNotes[] = {"c", "d", "e", "f", "g", "a", "b"};
@@ -58,21 +50,6 @@ public class SRGModel {
         initScales();
         addNoteNumbers();
         initMidiNotes();
-
-        fretboardWidth = 1200;
-        fretboardHeight = 300;
-
-
-        margin = 50;
-        numFrets = 15;
-        useFrame = true;
-
-        stringLength = fretboardWidth - 2 * margin;
-        snaarhoogte = (fretboardHeight - 2 * margin) / 5;
-
-        scale = stringLength / distanceFromNut(1, numFrets);
-
-
     }
 
     private void initScales() {
@@ -390,19 +367,7 @@ public class SRGModel {
 
         arrayCopy(scaleNotesDefault, scaleNotes);
     }
-    /**
-     * Method returns the the distance of the fret from the nut, in the same unit as scale
-     *
-     * @param s scale for example in pixels
-     * @param n fretnumber
-     * @return  distance in unit
-     *
-     */
-    double distanceFromNut (double s, int n){
-        //float s = 100;
-        //d distance from nut, s scale length, n = fretnumber
-        return s-(s/pow((float)2.0, (float)(n / 12.0)));
-    }
+
 
     // tijdelijke functie totdat we betere manier hebben om direct id terug te krijgen
     public Note getNoteWithName(String s) {

@@ -22,7 +22,7 @@ public class MainMenu extends JMenuBar {
 
         JMenuItem newMenuItem = new JMenuItem("New");
         newMenuItem.setMnemonic(KeyEvent.VK_N);
-        newMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
+        newMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         //newMenuItem.setActionCommand("New");
 
         JMenuItem openMenuItem = new JMenuItem("Open");
@@ -57,9 +57,7 @@ public class MainMenu extends JMenuBar {
         };
 
         openAction.putValue(Action.ACCELERATOR_KEY,
-                KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK));
-
-        openAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_O);
+                KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         openMenuItem.setAction(openAction);
         /**
          * save
@@ -94,9 +92,8 @@ public class MainMenu extends JMenuBar {
         };
 
         saveAction.putValue(Action.ACCELERATOR_KEY,
-                KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
+                KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 
-        saveAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_S);
         saveMenuItem.setAction(saveAction);
 
         /*
@@ -111,14 +108,14 @@ public class MainMenu extends JMenuBar {
         ///Edit Menu
         JMenu editMenu = new JMenu("Edit");
         JMenuItem undoMenuItem = new JMenuItem("Undo");
-        undoMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK));
+        undoMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         JMenuItem redoMenuItem = new JMenuItem("Redo");
         JMenuItem cutMenuItem = new JMenuItem("Cut");
-        cutMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
+        cutMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         JMenuItem copyMenuItem = new JMenuItem("Copy");
-        copyMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, Event.CTRL_MASK));
+        copyMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         JMenuItem pasteMenuItem = new JMenuItem("Paste");
-        pasteMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK));
+        pasteMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 
         editMenu.add(undoMenuItem);
         editMenu.add(redoMenuItem);
