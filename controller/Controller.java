@@ -37,7 +37,7 @@ public class Controller {
         staff = mainGui.getStaffPanel();
         fretboard = mainGui.getFretboardPanel();
 
-        /* Populate the comboboxes*/
+        /* Populate the comboboxes */
         toolbar.populateKeysCombo(model.getKeysArray());
         toolbar.populateScalesCombo(model.getScalesArray());
         toolbar.populateFingeringSystemCombobox(model.getFingeringSystemsArray());
@@ -63,6 +63,7 @@ public class Controller {
                 key = key.trim();
                 System.out.println("Key:" + key);
                 Note tmpNote = model.getNoteWithName(key);
+                fretboard.setKey(key.toLowerCase());
 
 
                 //Scale

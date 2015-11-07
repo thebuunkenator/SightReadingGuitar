@@ -27,7 +27,8 @@ public class FretboardPanel extends views.Canvas {
     boolean useFrame;
     String[] tuning = { "e", "b", "g", "d", "a", "e" };
     String[] currentScaleNotes = {"c", "d", "e", "f", "g", "a", "b"};
-    private int[] position = { 1, 5 };
+    private int[] position = { 0, 3 };
+    String currentKey = "c";
 
     HashMap <String, Integer> noteNumbers = new HashMap<String, Integer>();
 
@@ -234,7 +235,12 @@ public class FretboardPanel extends views.Canvas {
 
         double gemiddelde;
 
-        fill(255, 255,255);
+        if(name.toLowerCase().equals(currentKey.toLowerCase())) {
+            fill(255,0,0);
+        }
+        else {
+            fill(255, 255, 255);
+        }
         stroke(0,0,0);
         if (fret == 0 ){
             gemiddelde= ( extraRuimteKam)-1.35*marginLeft;
@@ -245,8 +251,7 @@ public class FretboardPanel extends views.Canvas {
                 (int)snaarhoogte, (int)snaarhoogte-5);
         //textSize(16);
         fill(0,0,0);
-        //TODO correcties op x en y zijn eigenlijk gevolg van niet goed centreren; 5 en 2
-        text(name, (int)(margin + extraRuimteKam +gemiddelde), (int)(marginTop+distanceFromEdge+ snaarhoogte*(stringNumber-1)));
+        text(name.toUpperCase(), (int)(margin + extraRuimteKam +gemiddelde), (int)(marginTop+distanceFromEdge+ snaarhoogte*(stringNumber-1)));
     }
 
 
@@ -387,7 +392,9 @@ public class FretboardPanel extends views.Canvas {
         currentScaleNotes = s;
     }
 
-
+    public void setKey(String key) {
+        currentKey = key;
+    }
 
     public void drawAllQuizNotes() {
         if(quizNotes ==  null || quizNotes.isEmpty()) {
