@@ -33,8 +33,6 @@ public class GUI extends JFrame {
 
         fretboardPanel = new FretboardPanel();
         panel.add(fretboardPanel, BorderLayout.CENTER);
-//        processing.core.PApplet sketch = new ProcessingSketch();
-//        panel.add(sketch, BorderLayout.CENTER);
 
         staffPanel = new StaffPanel();
         staffPanel.setPreferredSize(new Dimension(200,200));

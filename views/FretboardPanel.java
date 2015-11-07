@@ -398,7 +398,7 @@ public class FretboardPanel extends views.Canvas {
 
         for (QuizNote currentNote : quizNotes) {
 
-            drawNoteWithName(currentNote.getString()+1, currentNote.getFret(), currentNote.getNoteName());
+            drawNoteWithName(currentNote.getString(), currentNote.getFret(), currentNote.getNoteName());
         }
     }
 

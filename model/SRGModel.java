@@ -19,6 +19,7 @@ public class SRGModel {
 
     String[] tuning = {"e", "b", "g", "d", "a", "e" };
 
+    //midituning: begint bij snaar 0; in de rest van de code wort uitgegaan van snaar 1 voor hoge e snaar.
     int[] midiTuning = {64, 59, 55, 50, 45, 40}; // midi noot toon hoogte nodig om vertaling naar notenschrift te maken
 
     int[] majorScale = {2, 2, 1, 2, 2, 2, 1};
@@ -427,10 +428,10 @@ public class SRGModel {
     public void generateQuizNotes() {
         println("generate quiz notes");
         quizNotes.clear();
-        for(int snaar = 0; snaar < 6; snaar ++) {
+        for(int snaar = 1; snaar <= 6; snaar ++) {
            // System.out.println("Snaar " + snaar);
             for(int fret = 0; fret <= 24; fret ++){ // alle frets -> moet worden frets in view
-                int currentMidiNote = midiTuning[snaar]+fret;
+                int currentMidiNote = midiTuning[snaar-1]+fret;
                     String match = matchNoteMetMidiPitch(currentMidiNote, scaleNotes);
                     if(!match.equals("")) {
                         QuizNote tmpQuizNote = new QuizNote(snaar,fret,currentMidiNote,match);
