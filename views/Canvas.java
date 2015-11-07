@@ -29,14 +29,18 @@ public class Canvas extends JPanel {
     private int horizontalAlign = CENTER;
     private int vericalAlign = CENTER;
 
+    private Font f = new Font("SansSerif", Font.BOLD, 12);
+
 
 
     public Canvas () {
+
 
     }
 
     public void setDC(Graphics2D g2d) {
         this.g2d = g2d;
+        g2d.setFont(f);
     }
 
     public void line(int i1, int i2, int i3, int i4) {
@@ -153,17 +157,23 @@ public class Canvas extends JPanel {
 
     }
 
+    //TODO: Centreren van de tekst gaat nog niet goed.
     public void text(String s, int x, int y) {
 
-        int stringLen = (int)g2d.getFontMetrics().getStringBounds(s, g2d).getWidth();
-        int stringHeight = (int)g2d.getFontMetrics().getStringBounds(s, g2d).getHeight();
+        FontMetrics fm = g2d.getFontMetrics();
+
+//        int stringLen = (int)g2d.getFontMetrics().getStringBounds(s, g2d).getWidth();
+//        int stringHeight = (int)g2d.getFontMetrics().getStringBounds(s, g2d).getHeight();
+        int stringLen = (int)fm.stringWidth(s);
+        int stringHeight = fm.getHeight() ;
+//                (int)fm.getAscent() + fm.getDescent();
 
 
         int startx = 0;
         int starty = 0;
 
         if(horizontalAlign == CENTER) {
-            startx = stringLen/2;
+            startx = -stringLen/2;
         }
 
         if (vericalAlign == CENTER) {

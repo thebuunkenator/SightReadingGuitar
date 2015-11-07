@@ -245,8 +245,8 @@ public class FretboardPanel extends views.Canvas {
                 (int)snaarhoogte, (int)snaarhoogte-5);
         textSize(16);
         fill(0,0,0);
-        //TODO correcties op x en y zijn eigenlijk gevolg van niet goed centreren
-        text(name, (int)(margin + extraRuimteKam +gemiddelde)-5, (int)(marginTop+distanceFromEdge+ snaarhoogte*(stringNumber-1)-2));
+        //TODO correcties op x en y zijn eigenlijk gevolg van niet goed centreren; 5 en 2
+        text(name, (int)(margin + extraRuimteKam +gemiddelde), (int)(marginTop+distanceFromEdge+ snaarhoogte*(stringNumber-1)));
     }
 
 
