@@ -3,6 +3,8 @@ package views;
 import java.awt.*;
 import java.lang.*;
 import java.lang.System;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 
@@ -21,11 +23,15 @@ public class FretboardPanel extends views.Canvas {
     float snaarhoogte;
     double scale;
     int numFrets = 21;
+    int distanceFromEdge=16; // afstand tussen de snaar en de rand van de hals
     boolean useFrame;
     String[] tuning = { "e", "b", "g", "d", "a", "e" };
+    String[] currentScaleNotes = {"c", "d", "e", "f", "g", "a", "b"};
     private int[] position = { 1, 5};
 
     HashMap <String, Integer> noteNumbers = new HashMap<String, Integer>();
+
+    private ArrayList<QuizNote> quizNotes =  new ArrayList<>();
 
     /**
      * In tegenstelling tot Processing wordt draw niet continu aangeroepen
@@ -85,6 +91,18 @@ public class FretboardPanel extends views.Canvas {
         drawStrings();
         drawDots();
         drawFingerFrame();
+
+        drawAllQuizNotes();
+
+
+//        drawNoteOnString("e",5);
+//
+//        for(int snaar = 1; snaar <= 6 ; snaar ++){
+//            for(String scaleNote : currentScaleNotes) {
+//
+//                drawNoteOnString(scaleNote, snaar);
+//            }
+//        }
     }
 
 
@@ -118,10 +136,6 @@ public class FretboardPanel extends views.Canvas {
         }
     }
 
-
-
-//==========FRETBOARD==========
-
     void drawWood() {
         //fill(161,123, 88); //licht bruin (ear master)
         fill(112, 74,55);
@@ -133,7 +147,7 @@ public class FretboardPanel extends views.Canvas {
 
     void drawStrings() {
 
-        int distanceFromEdge=16; // afstand tussen de snaar en de rand van de hals
+
 
         stroke(214,214,214);
         strokeWeight(1);
@@ -223,18 +237,20 @@ public class FretboardPanel extends views.Canvas {
         fill(255, 255,255);
         stroke(0,0,0);
         if (fret == 0 ){
-            gemiddelde= -margin/2;
+            gemiddelde= ( extraRuimteKam)-1.35*marginLeft;
         } else {
             gemiddelde = (distanceFromNut(scale,fret)+distanceFromNut(scale,fret-1))/2;
         }
-        ellipse ((int)(margin+gemiddelde), (int)(margin+snaarhoogte*(stringNumber-1)),30,30);
+        ellipse ((int)(margin+ extraRuimteKam+ gemiddelde), (int)((marginTop+distanceFromEdge+snaarhoogte*(stringNumber-1))),
+                (int)snaarhoogte, (int)snaarhoogte-5);
         textSize(16);
         fill(0,0,0);
-        text(name, (int)(margin+gemiddelde), (int)(margin+snaarhoogte*(stringNumber-1)));
+        //TODO correcties op x en y zijn eigenlijk gevolg van niet goed centreren
+        text(name, (int)(margin + extraRuimteKam +gemiddelde)-5, (int)(marginTop+distanceFromEdge+ snaarhoogte*(stringNumber-1)-2));
     }
 
 
-    //TODO: integreren met
+    //TODO: integreren met draw Note with Name
     void drawNoteOnString(String noteName, int stringNumber)
     {
         //draw note on string
@@ -326,12 +342,6 @@ public class FretboardPanel extends views.Canvas {
         fretboardWidth = 1200;
         fretboardHeight = 300;
 
-        //surface.setResizable(true);
-        //  for (int i = 0; i<15; i++)
-        //  {
-        //    log (i, distanceFromNut(1,i));
-        //  }
-
         margin = 50;
         marginLeft = 50;
         marginTop = 50;
@@ -373,6 +383,30 @@ public class FretboardPanel extends views.Canvas {
 
     }
 
+    public void setTuning(String [] s) {
+        currentScaleNotes = s;
+    }
+
+
+
+    public void drawAllQuizNotes() {
+        if(quizNotes ==  null || quizNotes.isEmpty()) {
+            println("empty array");
+
+            return;
+        }
+
+        for (QuizNote currentNote : quizNotes) {
+
+            drawNoteWithName(currentNote.getString()+1, currentNote.getFret(), currentNote.getNoteName());
+        }
+    }
+
+    public void setQuizNotes(ArrayList<QuizNote> quizNotes) {
+        this.quizNotes = quizNotes;
+        this.repaint();
+    }
+
     @Override
     public void paintComponent(Graphics g) {
 
@@ -384,5 +418,13 @@ public class FretboardPanel extends views.Canvas {
         } else {
 //            System.out.println("Error getting Graphics context");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "FretboardPanel{" +
+                "numFrets=" + numFrets +
+                ", tuning=" + Arrays.toString(tuning) +
+                '}';
     }
 }

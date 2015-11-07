@@ -4,18 +4,18 @@ import java.lang.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static processing.core.PApplet.pow;
-import static processing.core.PApplet.arrayCopy;
-
 import abc.notation.AccidentalType;
 import abc.notation.KeySignature;
 import abc.notation.Note;
+import views.QuizNote;
+
+import static processing.core.PApplet.*;
 
 // THIS IS THE MODEL
 
 public class SRGModel {
 
-    final static String scaleNotesDefault[] = {"c", "d", "e", "f", "g", "a", "b"};
+    final String scaleNotesDefault[] = {"c", "d", "e", "f", "g", "a", "b"};
 
     String[] tuning = {"e", "b", "g", "d", "a", "e" };
 
@@ -27,6 +27,7 @@ public class SRGModel {
     String sharps[] = {"-", "f#", "c#", "g#", "d#", "a#", "e#", "b#"};
     String flats[] = {"-", "bb", "eb", "ab", "db", "gb", "cb", "fb"};
     String scaleNotes[] = {"c", "d", "e", "f", "g", "a", "b"};
+
 
 
     // Current Settings
@@ -43,6 +44,10 @@ public class SRGModel {
     private ArrayList<FingeringSystem> fingeringSystems = new ArrayList<>();
     private ArrayList<MidiNote> midiNotes = new ArrayList();
     private ArrayList<Scale> scales  = new ArrayList();
+
+
+
+    private ArrayList<QuizNote> quizNotes =  new ArrayList<>();
 
     public SRGModel() {
         initKeys();
@@ -317,9 +322,8 @@ public class SRGModel {
 
         for (int i = 0; i<scales.size(); i++) {
             s[i] = scales.get(i).toString();
-
+            System.out.print(s[i]);
         }
-
         return s;
 
     }
@@ -330,6 +334,9 @@ public class SRGModel {
 
     public void setCurrentScale(Scale currentScale) {
         this.currentScale = currentScale;
+
+
+
     }
 
     public Note getCurrentKey() {
@@ -338,6 +345,18 @@ public class SRGModel {
 
     public void setCurrentKey(Note currentKey) {
         this.currentKey = currentKey;
+        //replace notes in array
+
+        resetScaleNotesArray();
+        Key key = getKey(currentKey);
+        //println("flats and sharps" + key.getNumFlats() + key.getNumSharps());
+        for(int i=1; i<=key.getNumSharps(); i++) {
+            replaceNotesInArray(sharps[i]);
+        }
+        for(int i=1; i<=key.getNumFlats(); i++) {
+            replaceNotesInArray(flats[i]);
+        }
+        System.out.println(getScalesArray());
         // update Notes in notes to draw
         // update frame position
     }
@@ -387,4 +406,83 @@ public class SRGModel {
         }
         return null;
     }
+
+    private Key getKey(Note note) {
+        for(Key key :keys) {
+            if(note.equals(key.getNote())) {
+                return key;
+            }
+        }
+        return null;
+    }
+
+    public void printTooladder() {
+        String s;
+        for (int i =0; i< scaleNotes.length; i++) {
+            System.out.println (scaleNotes[i]);
+        }
+
+    }
+
+    public void generateQuizNotes() {
+        println("generate quiz notes");
+        quizNotes.clear();
+        for(int snaar = 0; snaar < 6; snaar ++) {
+           // System.out.println("Snaar " + snaar);
+            for(int fret = 0; fret <= 24; fret ++){ // alle frets -> moet worden frets in view
+                int currentMidiNote = midiTuning[snaar]+fret;
+                    String match = matchNoteMetMidiPitch(currentMidiNote, scaleNotes);
+                    if(!match.equals("")) {
+                        QuizNote tmpQuizNote = new QuizNote(snaar,fret,currentMidiNote,match);
+                        quizNotes.add(tmpQuizNote);
+                    }
+            }
+        }
+
+    }
+
+    private String matchNoteMetMidiPitch(int midiPitch, String [] s) {
+        MidiNote note = findMidiNoteByPitch(midiPitch);
+
+        if(note ==  null) {
+            return "";
+        }
+
+        for (int i =0; i< s.length; i++) { // alle scale notes
+            if(note.getNormal().equals(s[i])){
+                return s[i];
+            }
+
+            if(note.getDoubleFlat().equals(s[i])){
+                return s[i];
+            }
+            if(note.getDoubleSharp().equals(s[i])){
+                return s[i];
+            }
+            if(note.getFlat().equals(s[i])){
+                return s[i];
+            }
+            if(note.getSharp().equals(s[i])){
+                return s[i];
+            }
+        }
+
+        return  "";
+    }
+
+    private MidiNote findMidiNoteByPitch (int pitch) {
+
+        for(MidiNote currentMidiNote : midiNotes) {
+            if(currentMidiNote.getMidiNumber() == pitch) {
+                return currentMidiNote;
+            }
+        }
+
+        return null;
+    }
+
+    public ArrayList<QuizNote> getQuizNotes() {
+        return quizNotes;
+    }
+
 }

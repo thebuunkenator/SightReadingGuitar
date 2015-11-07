@@ -3,6 +3,7 @@ package controller;
 import abc.notation.Note;
 import model.SRGModel;
 import model.Scale;
+import views.FretboardPanel;
 import views.GUI;
 import views.StaffPanel;
 import views.ToolbarPanel;
@@ -27,12 +28,14 @@ public class Controller {
     private SRGModel model = new SRGModel();
     private ToolbarPanel toolbar;
     private StaffPanel staff;
+    private FretboardPanel fretboard;
 
 
     public Controller() {
 
         toolbar = mainGui.getToolbarPanel();
         staff = mainGui.getStaffPanel();
+        fretboard = mainGui.getFretboardPanel();
 
         /* Populate the comboboxes*/
         toolbar.populateKeysCombo(model.getKeysArray());
@@ -74,14 +77,13 @@ public class Controller {
                     //update
                     staff.resetTune(key, scale);
 
-                    //TODO update fretboard image
-                    //todo update image with the correct notes.
-                    System.out.println("changing image with notes");
-
-                    // update model
-//                    System.out.println("changing model");
+                    //update model
                     model.setCurrentKey(tmpNote);
                     model.setCurrentScale(tmpScale);
+
+                    // get quiznotes and draw them on the fretboard
+                    model.generateQuizNotes();
+                    fretboard.setQuizNotes(model.getQuizNotes());
 
                 } else System.err.println("Error selecting key or scale. Either one is note found");
             }
@@ -91,6 +93,8 @@ public class Controller {
         /* connect actions to the items in the toolbar*/
         toolbar.addButtonActionListener(startExcercise);
         toolbar.addComboActionListener(changeExcercise);
+
+
 
     }
 
