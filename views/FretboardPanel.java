@@ -27,7 +27,7 @@ public class FretboardPanel extends views.Canvas {
     boolean useFrame;
     String[] tuning = { "e", "b", "g", "d", "a", "e" };
     String[] currentScaleNotes = {"c", "d", "e", "f", "g", "a", "b"};
-    private int[] position = { 1, 5};
+    private int[] position = { 1, 5 };
 
     HashMap <String, Integer> noteNumbers = new HashMap<String, Integer>();
 
@@ -392,13 +392,13 @@ public class FretboardPanel extends views.Canvas {
     public void drawAllQuizNotes() {
         if(quizNotes ==  null || quizNotes.isEmpty()) {
             println("empty array");
-
             return;
         }
 
         for (QuizNote currentNote : quizNotes) {
-
-            drawNoteWithName(currentNote.getString(), currentNote.getFret(), currentNote.getNoteName());
+            if(currentNote.getFret()<=numFrets) { //or within frame
+                drawNoteWithName(currentNote.getString(), currentNote.getFret(), currentNote.getNoteName());
+            }
         }
     }
 

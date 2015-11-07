@@ -17,8 +17,6 @@ public class SRGModel {
 
     final String scaleNotesDefault[] = {"c", "d", "e", "f", "g", "a", "b"};
 
-    String[] tuning = {"e", "b", "g", "d", "a", "e" };
-
     //midituning: begint bij snaar 0; in de rest van de code wort uitgegaan van snaar 1 voor hoge e snaar.
     int[] midiTuning = {64, 59, 55, 50, 45, 40}; // midi noot toon hoogte nodig om vertaling naar notenschrift te maken
 
@@ -45,9 +43,6 @@ public class SRGModel {
     private ArrayList<FingeringSystem> fingeringSystems = new ArrayList<>();
     private ArrayList<MidiNote> midiNotes = new ArrayList();
     private ArrayList<Scale> scales  = new ArrayList();
-
-
-
     private ArrayList<QuizNote> quizNotes =  new ArrayList<>();
 
     public SRGModel() {
@@ -56,6 +51,7 @@ public class SRGModel {
         initScales();
         addNoteNumbers();
         initMidiNotes();
+        generateQuizNotes();
     }
 
     private void initScales() {
@@ -316,6 +312,8 @@ public class SRGModel {
 
         return s;
     }
+
+
 
     public String[] getScalesArray() {
         String [] s;

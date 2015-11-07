@@ -42,6 +42,9 @@ public class Controller {
         toolbar.populateScalesCombo(model.getScalesArray());
         toolbar.populateFingeringSystemCombobox(model.getFingeringSystemsArray());
 
+        /* Initialize fretboard quiznotes */
+        fretboard.setQuizNotes(model.getQuizNotes());
+
         /* Actions */
         ActionListener startExcercise = new ActionListener() {
             @Override
