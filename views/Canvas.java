@@ -26,21 +26,26 @@ public class Canvas extends JPanel {
     private BasicStroke currentStroke = new BasicStroke();
     private boolean fill = true;
 
+    //text
+
     private int horizontalAlign = CENTER;
     private int vericalAlign = CENTER;
 
-    private Font f = new Font("SansSerif", Font.BOLD, 12);
-
-
+    private Font f = new Font(Font.SANS_SERIF, Font.BOLD, 12);
 
     public Canvas () {
-
 
     }
 
     public void setDC(Graphics2D g2d) {
         this.g2d = g2d;
         g2d.setFont(f);
+//
+//        GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//        Font[] fonts = e.getAllFonts(); // Get the fonts
+//        for (Font f : fonts) {
+//            System.out.println(f.getFontName());
+//        }
     }
 
     public void line(int i1, int i2, int i3, int i4) {
@@ -157,17 +162,14 @@ public class Canvas extends JPanel {
 
     }
 
-    //TODO: Centreren van de tekst gaat nog niet goed.
+
     public void text(String s, int x, int y) {
 
         FontMetrics fm = g2d.getFontMetrics();
 
-//        int stringLen = (int)g2d.getFontMetrics().getStringBounds(s, g2d).getWidth();
-//        int stringHeight = (int)g2d.getFontMetrics().getStringBounds(s, g2d).getHeight();
         int stringLen = (int)fm.stringWidth(s);
         int stringHeight = fm.getHeight() ;
 //                (int)fm.getAscent() + fm.getDescent();
-
 
         int startx = 0;
         int starty = 0;
@@ -181,26 +183,32 @@ public class Canvas extends JPanel {
         }
 
         g2d.drawString(s,  x+startx,  y+starty);
-       // g2d.drawString(s, x, y);
+
     }
 
     public void drawImage(Image img, int x, int y, int sizeX, int sizeY) {
-        // laatste is voor de imaga observer.
+        // laatste is voor de image observer.
         g2d.drawImage(img, x, y, sizeX, sizeY, null);
     }
 
-    public void textSize(int size) {
-        //TODO set textsize
-    }
 
     public void noFill() {
         this.fill = false;
     }
 
+
+    //text functions
     public void textAlign(int horAlign, int verAlign) {
-        //TODO set alignment of text
         this.horizontalAlign = horAlign;
         this.vericalAlign = verAlign;
     }
+
+    public void textSize(int size) {
+        String fontName = f.getFontName();
+        int fontStyle = f.getStyle();
+
+        f = new Font(fontName, fontStyle, size);
+    }
+
 
 }
