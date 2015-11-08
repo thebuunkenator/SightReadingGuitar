@@ -12,6 +12,8 @@ import views.ToolbarPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
+
 /**
  * Controller
  *
@@ -30,7 +32,7 @@ public class Controller {
     private ToolbarPanel toolbar;
     private StaffPanel staff;
     private FretboardPanel fretboard;
-
+    private Quiz quiz;
 
     public Controller() {
 
@@ -46,15 +48,30 @@ public class Controller {
         /* Initialize fretboard quiznotes */
         fretboard.setQuizNotes(model.getQuizNotes());
 
+
         /* Actions */
         ActionListener startExcercise = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Controller recieved action: Starting Excercise");
 
-                //set quiznotes
-                //set timer
-                //start quiz loop.
+                if(toolbar.getBtnStart().getText().equals("Start")) {
+
+
+                    if (quiz != null && quiz.isRunning()) {
+                        System.out.println("You have to wait");
+                    } else {
+                        quiz = new Quiz();
+                    }
+                    toolbar.getBtnStart().setText("Stop");
+                } else {
+                    quiz.cancel();
+                    toolbar.getBtnStart().setText("Start");
+
+                }
+
+
+
             }
         };
 
@@ -127,6 +144,7 @@ public class Controller {
 
 
     }
+
 
 }
 

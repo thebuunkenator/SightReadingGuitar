@@ -1,11 +1,12 @@
 package views;
 
+import model.QuizNote;
+import model.QuizNotes;
+
 import java.awt.*;
 import java.lang.*;
-import java.lang.System;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 
 /**

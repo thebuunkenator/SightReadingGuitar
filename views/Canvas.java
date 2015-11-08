@@ -32,6 +32,12 @@ public class Canvas extends JPanel {
     private int vericalAlign = CENTER;
 
     private Font f = new Font(Font.SANS_SERIF, Font.BOLD, 12);
+    // FontRenderContext frc = g2.getFontRenderContext();
+    //getClass().getResourceAsStream("SONORA.TTF");
+    //File file =new File("D:/Perso/musicfonts/MIDIDESI/TRUETYPE/SONORA.TTF");
+    //FileInputStream fontStream = new FileInputStream(file);
+    //myFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("SONORA.TTF"));
+
 
     public Canvas () {
 

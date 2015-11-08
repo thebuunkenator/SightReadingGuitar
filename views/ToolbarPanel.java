@@ -13,6 +13,10 @@ public class ToolbarPanel extends JPanel {
     private JComboBox cmbScale; //major, dorian,,,
     private JComboBox cmbFingeringSystem; // C A G E D
 
+    public JButton getBtnStart() {
+        return btnStart;
+    }
+
     private JButton btnStart;
 
     public ToolbarPanel() {

@@ -7,7 +7,6 @@ import java.util.HashMap;
 import abc.notation.AccidentalType;
 import abc.notation.KeySignature;
 import abc.notation.Note;
-import views.QuizNote;
 
 import static processing.core.PApplet.*;
 
@@ -43,6 +42,8 @@ public class SRGModel {
     private ArrayList<FingeringSystem> fingeringSystems = new ArrayList<>();
     private ArrayList<MidiNote> midiNotes = new ArrayList();
     private ArrayList<Scale> scales  = new ArrayList();
+    //TODO: remove this code or change
+    //private QuizNotes quizNotes = new QuizNotes();
     private ArrayList<QuizNote> quizNotes =  new ArrayList<>();
 
     public SRGModel() {

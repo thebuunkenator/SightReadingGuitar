@@ -1,4 +1,4 @@
-package views;
+package model;
 
 import abc.notation.Note;
 
@@ -16,6 +16,7 @@ public class QuizNote {
     int fret;
     int midiNumber;
     String noteName;
+    private static int id;
 //  Note note;
 
     public QuizNote(int string, int fret, int midiNumber, String noteName) {
@@ -23,6 +24,7 @@ public class QuizNote {
         this.fret = fret;
         this.midiNumber = midiNumber;
         this.noteName = noteName;
+        id++;
     }
 
     //Getters and Setters
@@ -36,6 +38,10 @@ public class QuizNote {
 
     public int getMidiNumber() {
         return midiNumber;
+    }
+
+    public int getID() {
+        return id;
     }
 
     public String getNoteName() {
