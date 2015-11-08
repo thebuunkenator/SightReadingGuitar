@@ -61,7 +61,9 @@ public class Controller {
                     if (quiz != null && quiz.isRunning()) {
                         System.out.println("You have to wait");
                     } else {
-                        quiz = new Quiz();
+                        quiz = new Quiz(model.getQuizNotes());
+                        quiz.setFretboard(fretboard);
+                        quiz.setStaf(staff);
                     }
                     toolbar.getBtnStart().setText("Stop");
                 } else {
@@ -122,7 +124,7 @@ public class Controller {
 
                 if (tmpNote != null && tmpScale != null) {
                     //update
-                    staff.resetTune(key, scale);
+                    staff.resetTune(key, scale , key, "");
 
                     //update model
                     model.setCurrentKey(tmpNote);

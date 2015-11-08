@@ -144,7 +144,7 @@ public class SRGModel {
         midiNotes.add(new MidiNote(47, "", "cb", "b", "", "ax"));
         midiNotes.add(new MidiNote(48, "df", "", "c", "b#", ""));
         midiNotes.add(new MidiNote(49, "", "db", "", "c#", "bx"));
-        midiNotes.add(new MidiNote(50, "ef", "", "d", "", "cx")); //d
+        midiNotes.add(new MidiNote(50, "ef", "", "d", "", "cx"));  //d
         midiNotes.add(new MidiNote(51, "ff", "eb", "", "d#", ""));
         midiNotes.add(new MidiNote(52, "", "fb", "e", "", "dx"));
         midiNotes.add(new MidiNote(53, "gf", "", "f", "e#", ""));

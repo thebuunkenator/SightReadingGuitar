@@ -1,5 +1,11 @@
 package controller;
 
+import model.QuizNote;
+import views.FretboardPanel;
+import views.StaffPanel;
+
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.TimerTask;
 import java.util.Timer;
 
@@ -17,12 +23,23 @@ public class Quiz {
     private int delay; //in seconds
     private int numQuestions;
     private boolean isRunning;
+    private ArrayList<QuizNote> quizNotes = new ArrayList<>();
+    private StaffPanel staf;
+    private FretboardPanel fretboard;
 
+    public void setFretboard(FretboardPanel fretboard) {
+        this.fretboard = fretboard;
+    }
 
-    public Quiz() {
+    public void setStaf(StaffPanel staf) {
+        this.staf = staf;
+    }
+
+    public Quiz(ArrayList<QuizNote> qns) {
         timer = new Timer();
         delay = 1;
         numQuestions = 10;
+        quizNotes = (ArrayList<QuizNote>)qns.clone();
 
         timer.schedule(new showQuizNote(),
                 delay*1000,   //initial delay
@@ -60,6 +77,7 @@ public class Quiz {
     // quiz subclass
     class showQuizNote extends TimerTask {
         boolean question = true;
+        QuizNote randomNote;
 
         int currentQuestion = 1;
 
@@ -67,11 +85,18 @@ public class Quiz {
 
             if (question) {
                 System.out.println("Question" + currentQuestion);
-                //
+                randomNote = selectRandomNote(); //returns quiznote do something with it
+                staf.singleQuizNote(randomNote);
+                fretboard.clearQuizNotes();
+
+                //clear
+
 
             } else {
                 System.out.println("Answer");
+                //show on fretboard
                 currentQuestion++;
+                fretboard.setSingleQuizNotes(randomNote);
             }
             question = !question;
 
@@ -79,10 +104,24 @@ public class Quiz {
                 this.cancel();
                 System.out.println("Cancelling quiz.");
                 isRunning =  false;
+                //reset de Quiznote in Model
             }
 
         }
 
+        private QuizNote selectRandomNote(){
+            Random randomGenerator = new Random();
+
+            int count = quizNotes.size();
+            int randomNote = randomGenerator.nextInt(count);
+            System.out.println(randomNote);
+
+            return quizNotes.get(randomNote);
+
+        }
+
     }
+
+
 
 }

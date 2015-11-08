@@ -1,7 +1,6 @@
 package views;
 
 import model.QuizNote;
-import model.QuizNotes;
 
 import java.awt.*;
 import java.lang.*;
@@ -30,14 +29,8 @@ public class FretboardPanel extends views.Canvas {
     String[] currentScaleNotes = {"c", "d", "e", "f", "g", "a", "b"};
     private int[] position = { 0, 3 };
     String currentKey = "c";
-
-//    HashMap <String, Integer> noteNumbers = new HashMap<String, Integer>();
-
     private ArrayList<QuizNote> quizNotes =  new ArrayList<>();
 
-    /**
-     * In tegenstelling tot Processing wordt draw niet continu aangeroepen
-     */
     private void draw() {
 
         background(125, 0, 0);
@@ -296,7 +289,18 @@ public class FretboardPanel extends views.Canvas {
     }
 
     public void setQuizNotes(ArrayList<QuizNote> quizNotes) {
-        this.quizNotes = quizNotes;
+        this.quizNotes = (ArrayList<QuizNote>)quizNotes.clone();
+        this.repaint();
+    }
+
+    public void setSingleQuizNotes(QuizNote quizNote) {
+        this.quizNotes.clear();
+        this.quizNotes.add(quizNote);
+        this.repaint();
+    }
+
+    public void clearQuizNotes() {
+        quizNotes.clear();
         this.repaint();
     }
 
