@@ -1,6 +1,7 @@
 package controller;
 
 import abc.notation.Note;
+import model.FingeringSystem;
 import model.SRGModel;
 import model.Scale;
 import views.FretboardPanel;
@@ -50,6 +51,10 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Controller recieved action: Starting Excercise");
+
+                //set quiznotes
+                //set timer
+                //start quiz loop.
             }
         };
 
@@ -61,21 +66,42 @@ public class Controller {
                 //Key
                 String key = (String) toolbar.getCmbKey().getSelectedItem();
                 key = key.trim();
-                System.out.println("Key:" + key);
+//                System.out.println("Key:" + key);
                 Note tmpNote = model.getNoteWithName(key);
                 fretboard.setKey(key.toLowerCase());
 
-
                 //Scale
                 String scale = (String) toolbar.getCmbScale().getSelectedItem();
-                System.out.println("Scale: " + scale);
+//                System.out.println("Scale: " + scale);
                 Scale tmpScale = model.getScaleWithName(scale);
 
 
                 //Fingering system
                 String fingering = (String) toolbar.getCmbFingeringSystem().getSelectedItem();
-                System.out.println("Fingering: " + fingering);
-                //TODO: model.setCurrentFingeringSystem(tmpFS);
+//                System.out.println("Fingering: " + fingering);
+                //zoek fingering
+                FingeringSystem fSystem = model.findFingeringSystemByName(fingering);
+                if(fSystem!=null) {
+                    model.setCurrentFingeringSystem(fSystem);
+                }
+                else {
+                    fSystem = model.getCurrentFingeringSystem();
+                }
+
+                // op basis van fingering, de key note zoeken op de juiste snaar
+                int keyString = fSystem.getKeyString();
+                int fret = model.findNoteOnString(key, keyString);
+                // op basis daarvan linker en rechte box bepalen
+                int start = fret + fSystem.getStartBox();
+                int end = fret + fSystem.getEndBox();
+
+                if(start<0) {
+                    start += 12;
+                    end += 12;
+                }
+                // dan deze instellen
+                model.setPosition(start, end);
+                fretboard.setPosition(start, end);
 
                 if (tmpNote != null && tmpScale != null) {
                     //update
@@ -86,7 +112,7 @@ public class Controller {
                     model.setCurrentScale(tmpScale);
 
                     // get quiznotes and draw them on the fretboard
-                    model.generateQuizNotes();
+                    model.generateQuizNotes(true);
                     fretboard.setQuizNotes(model.getQuizNotes());
 
                 } else System.err.println("Error selecting key or scale. Either one is note found");

@@ -51,7 +51,7 @@ public class SRGModel {
         initScales();
         addNoteNumbers();
         initMidiNotes();
-        generateQuizNotes();
+        generateQuizNotes(false);
     }
 
     private void initScales() {
@@ -90,6 +90,7 @@ public class SRGModel {
         fingeringSystems.add(new FingeringSystem(FingeringPosition.G_CAGED, 6, -4, 0));
         fingeringSystems.add(new FingeringSystem(FingeringPosition.E_CAGED, 6, -1, 2));
         fingeringSystems.add(new FingeringSystem(FingeringPosition.D_CAGED, 4, -1, 3));
+        fingeringSystems.add(new FingeringSystem(FingeringPosition.E_3_PER_STRING, 6, 0, 5));
         fingeringSystems.add(new FingeringSystem(FingeringPosition.E_3_PER_STRING, 6, 0, 5));
     }
 
@@ -321,7 +322,7 @@ public class SRGModel {
 
         for (int i = 0; i<scales.size(); i++) {
             s[i] = scales.get(i).toString();
-            System.out.print(s[i]);
+            //System.out.print(s[i]);
         }
         return s;
 
@@ -415,6 +416,11 @@ public class SRGModel {
         return null;
     }
 
+    public void setPosition(int start, int end) {
+        position[0] =  start;
+        position[1] = end;
+    }
+
     public void printTooladder() {
         String s;
         for (int i =0; i< scaleNotes.length; i++) {
@@ -422,13 +428,19 @@ public class SRGModel {
         }
 
     }
+    public void generateQuizNotes(boolean useBox) {
+        int start = 0;
+        int end = 24;
 
-    public void generateQuizNotes() {
-        println("generate quiz notes");
+        if (useBox){
+            start = position[0];
+            end = position[1];
+        }
+
         quizNotes.clear();
         for(int snaar = 1; snaar <= 6; snaar ++) {
            // System.out.println("Snaar " + snaar);
-            for(int fret = 0; fret <= 24; fret ++){ // alle frets -> moet worden frets in view
+            for(int fret = start; fret <= end; fret ++){ // alle frets -> moet worden frets in view
                 int currentMidiNote = midiTuning[snaar-1]+fret;
                     String match = matchNoteMetMidiPitch(currentMidiNote, scaleNotes);
                     if(!match.equals("")) {
@@ -469,6 +481,36 @@ public class SRGModel {
         return  "";
     }
 
+
+    private String matchNoteMetMidiPitch(int midiPitch, String s) {
+        MidiNote note = findMidiNoteByPitch(midiPitch);
+
+        if(note ==  null) {
+            return "";
+        }
+
+
+        if(note.getNormal().equals(s)){
+            return s;
+        }
+
+        if(note.getDoubleFlat().equals(s)){
+            return s;
+        }
+        if(note.getDoubleSharp().equals(s)){
+            return s;
+        }
+        if(note.getFlat().equals(s)){
+            return s;
+        }
+        if(note.getSharp().equals(s)){
+            return s;
+        }
+
+
+        return  "";
+    }
+
     private MidiNote findMidiNoteByPitch (int pitch) {
 
         for(MidiNote currentMidiNote : midiNotes) {
@@ -482,6 +524,31 @@ public class SRGModel {
 
     public ArrayList<QuizNote> getQuizNotes() {
         return quizNotes;
+    }
+
+    public int findNoteOnString(String note, int snaar) { //returns fretNumber
+
+        for(int fret = 0; fret <= 24; fret ++){ // alle frets -> moet worden frets in view
+            int currentMidiNote = midiTuning[snaar-1]+fret;
+            String match = matchNoteMetMidiPitch(currentMidiNote, note.toLowerCase());
+            if(!match.equals("")) {
+                return fret;
+           }
+        }
+        return -1;
+    }
+
+    public FingeringSystem findFingeringSystemByName(String name) {
+        System.out.println("Finding fs: "+name);
+        for (FingeringSystem f : fingeringSystems) {
+            System.out.print(f.toString());
+            if(f.toString().toLowerCase().equals(name.toLowerCase())){
+                return f;
+            }
+
+        }
+        return null;
+
     }
 
 }
