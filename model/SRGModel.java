@@ -49,7 +49,6 @@ public class SRGModel {
         initKeys();
         initSystems();
         initScales();
-        addNoteNumbers();
         initMidiNotes();
         generateQuizNotes(false);
     }
@@ -91,34 +90,7 @@ public class SRGModel {
         fingeringSystems.add(new FingeringSystem(FingeringPosition.E_CAGED, 6, -1, 2));
         fingeringSystems.add(new FingeringSystem(FingeringPosition.D_CAGED, 4, -1, 3));
         fingeringSystems.add(new FingeringSystem(FingeringPosition.E_3_PER_STRING, 6, 0, 5));
-        fingeringSystems.add(new FingeringSystem(FingeringPosition.E_3_PER_STRING, 6, 0, 5));
     }
-
-
-    private void addNoteNumbers() {
-        noteNumbers.put("b#", 0);
-        noteNumbers.put("c", 0);
-        noteNumbers.put("c#", 1);
-        noteNumbers.put("db", 1);
-        noteNumbers.put("d", 2);
-        noteNumbers.put("d#", 3);
-        noteNumbers.put("eb", 3);
-        noteNumbers.put("e", 4);
-        noteNumbers.put("fb", 4);
-        noteNumbers.put("e#", 5);
-        noteNumbers.put("f", 5);
-        noteNumbers.put("f#", 6);
-        noteNumbers.put("gb", 6);
-        noteNumbers.put("g", 7);
-        noteNumbers.put("ab", 8);
-        noteNumbers.put("g#", 8);
-        noteNumbers.put("a", 9);
-        noteNumbers.put("a#", 10);
-        noteNumbers.put("bb", 10);
-        noteNumbers.put("b", 11);
-        noteNumbers.put("cb", 11);
-    }
-
 
     private void initMidiNotes() {
         midiNotes.add(new MidiNote(0, "df", "", "c", "b#", ""));
@@ -276,7 +248,6 @@ public class SRGModel {
                 midiNoteNumbers.put(element.getMidiNumber(), noteToFind);
             }
         }
-        //println(noteList);
         return noteList;
     }
 
@@ -290,7 +261,6 @@ public class SRGModel {
 
         for (int i = 0; i<keys.size(); i++) {
             s[i] = keys.get(i).toString();
-//            System.out.println("adding: " + i + "-" + keys.get(i).toString());
         }
 
 
@@ -373,20 +343,16 @@ public class SRGModel {
         for (int i = 0; i < scaleNotes.length; i++)
 
         {
-            //log(scaleNotes[i] +  "<>" + sharpflat.substring(0,1));
             if (scaleNotes[i].equals(sharpflat.substring(0, 1))) {
-                //log("replacing");
                 scaleNotes[i] = sharpflat;
             }
         }
-        //log(scaleNotes);
     }
 
     private void resetScaleNotesArray() {
 
         arrayCopy(scaleNotesDefault, scaleNotes);
     }
-
 
     // tijdelijke functie totdat we betere manier hebben om direct id terug te krijgen
     public Note getNoteWithName(String s) {
@@ -488,8 +454,6 @@ public class SRGModel {
         if(note ==  null) {
             return "";
         }
-
-
         if(note.getNormal().equals(s)){
             return s;
         }
@@ -506,8 +470,6 @@ public class SRGModel {
         if(note.getSharp().equals(s)){
             return s;
         }
-
-
         return  "";
     }
 

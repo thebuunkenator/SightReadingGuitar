@@ -30,7 +30,7 @@ public class FretboardPanel extends views.Canvas {
     private int[] position = { 0, 3 };
     String currentKey = "c";
 
-    HashMap <String, Integer> noteNumbers = new HashMap<String, Integer>();
+//    HashMap <String, Integer> noteNumbers = new HashMap<String, Integer>();
 
     private ArrayList<QuizNote> quizNotes =  new ArrayList<>();
 
@@ -39,7 +39,7 @@ public class FretboardPanel extends views.Canvas {
      */
     private void draw() {
 
-        background(125,0,0);
+        background(125, 0, 0);
 
         Dimension size = new Dimension();
         getSize(size);
@@ -49,42 +49,42 @@ public class FretboardPanel extends views.Canvas {
         //TODO Extra ruimte voor de kam (nul-fret) van 32 px
         // nog wat te weinig ruimte links om noten te plaatsen.
         // ook nog wat ruimte rechts over laten
-        fretboardWidth = (int)(size.width - 2* margin - extraRuimteKam);
-        marginLeft=(int)margin+extraRuimteKam;
+        fretboardWidth = (int) (size.width - 2 * margin - extraRuimteKam);
+        marginLeft = (int) margin + extraRuimteKam;
 
         fretboardHeight = 160;
-        if(size.height<160) {
+        if (size.height < 160) {
             fretboardHeight = size.height;
         }
 
         //TODO scale is nog een klein beetje onnauwkeurig
         //Varieer de lengte van de hals, afhankelijk van het scherm. Naar analogie van Earmaster
-        if(size.width<=685) {
+        if (size.width <= 685) {
             numFrets = 12;
             scale = fretboardWidth * 2;
         }
 
-        if(size.width > 685 && size.width <= 892 ) {
+        if (size.width > 685 && size.width <= 892) {
             numFrets = 16;
             scale = fretboardWidth * 1.8;
         }
 
-        if(size.width > 892 && size.width <= 1125 ) {
+        if (size.width > 892 && size.width <= 1125) {
             numFrets = 20;
             scale = fretboardWidth * 1.6;
         }
 
-        if(size.width > 1125) {
+        if (size.width > 1125) {
             numFrets = 24;
-            scale = fretboardWidth*1.33;
+            scale = fretboardWidth * 1.33;
         }
 
-        snaarhoogte =(int) ((fretboardHeight - 32)/5);
+        snaarhoogte = (int) ((fretboardHeight - 32) / 5);
         stringLength = fretboardWidth;
 
 
         //center fretboard verticaal
-        marginTop = (int)((size.height - fretboardHeight)*0.5);
+        marginTop = (int) ((size.height - fretboardHeight) * 0.5);
 
         //teken de onderdelen
         drawWood();
@@ -94,18 +94,7 @@ public class FretboardPanel extends views.Canvas {
         drawFingerFrame();
 
         drawAllQuizNotes();
-
-
-//        drawNoteOnString("e",5);
-//
-//        for(int snaar = 1; snaar <= 6 ; snaar ++){
-//            for(String scaleNote : currentScaleNotes) {
-//
-//                drawNoteOnString(scaleNote, snaar);
-//            }
-//        }
     }
-
 
     //==========FRETBOARD==========
 
@@ -255,53 +244,6 @@ public class FretboardPanel extends views.Canvas {
     }
 
 
-    //TODO: integreren met draw Note with Name
-    void drawNoteOnString(String noteName, int stringNumber)
-    {
-        //draw note on string
-        //f.e. draw g on 6st string
-        //get note from open string
-        int openString = noteNumbers.get(tuning[stringNumber-1]);
-
-        int noteToDraw = noteNumbers.get(noteName);
-
-        if(noteToDraw != -1 && openString != -1)
-        {
-
-            int fret = noteToDraw - openString;
-
-            if (fret<0) {
-                fret+=12;
-            }
-
-            //TODO: alleen tonen binnen het vlak werkt nog niet
-            int octave = fret + 12;
-            //if (useFrame == true && fret >= position[0] && fret<=position[1])
-            {
-                drawNoteWithName(stringNumber, fret, noteName);
-
-
-                if (octave<numFrets)
-                {
-                    //if (useFrame == true && octave >= position[0] && octave<=position[1])
-                    {
-                        drawNoteWithName(stringNumber, octave, noteName);
-                    }
-                }
-            }
-
-        }
-        else
-        {
-            System.out.println("not found");
-            System.out.println(openString);
-            System.out.println(noteToDraw);
-        }
-
-
-    }
-
-
     double distanceFromNut (double s, int n){
         //float s = 100;
         //d distance from nut, s scale length, n = fretnumber
@@ -310,36 +252,6 @@ public class FretboardPanel extends views.Canvas {
 
     }
 
-    int getFretbyNoteOnString(String _note, int _stringNumber)
-    {
-        //dit wordt de nieuwe generieke functie
-        System.out.println("=>getFretbyNoteOnString");
-        System.out.println("note: " + _note.toLowerCase());
-        System.out.println("string: " + _stringNumber);
-        String opString =tuning[_stringNumber-1];
-
-        int noteToDraw = noteNumbers.get(_note);
-        int openString = noteNumbers.get(opString);
-        System.out.println("noteToDraw: " + noteToDraw);
-        System.out.println("openString: " + openString);
-
-        int fret = -1;
-
-        if(noteToDraw != -1 && openString != -1)
-        {
-            //both found
-            fret = noteToDraw - openString;
-            if (fret<0) {
-                fret+=12;
-            }
-        }
-        else
-        {
-            System.out.println("...not found");
-
-        }
-        return fret;
-    }
 
     // Necessities
     public FretboardPanel() {
@@ -354,32 +266,6 @@ public class FretboardPanel extends views.Canvas {
         useFrame=true;
         textAlign(CENTER, CENTER);
 
-        addNoteNumbers();
-
-    }
-
-    public void addNoteNumbers() {
-        noteNumbers.put("b#", 0);
-        noteNumbers.put("c", 0);
-        noteNumbers.put("c#", 1);
-        noteNumbers.put("db", 1);
-        noteNumbers.put("d", 2);
-        noteNumbers.put("d#", 3);
-        noteNumbers.put("eb", 3);
-        noteNumbers.put("e", 4);
-        noteNumbers.put("fb", 4);
-        noteNumbers.put("e#", 5);
-        noteNumbers.put("f", 5);
-        noteNumbers.put("f#", 6);
-        noteNumbers.put("gb", 6);
-        noteNumbers.put("g", 7);
-        noteNumbers.put("ab", 8);
-        noteNumbers.put("g#", 8);
-        noteNumbers.put("a", 9);
-        noteNumbers.put("a#", 10);
-        noteNumbers.put("bb", 10);
-        noteNumbers.put("b", 11);
-        noteNumbers.put("cb", 11);
     }
 
     public void setPosition(int start, int eind) {
@@ -401,7 +287,6 @@ public class FretboardPanel extends views.Canvas {
             println("empty array");
             return;
         }
-
         for (QuizNote currentNote : quizNotes) {
             if(currentNote.getFret()<=numFrets) { //or within frame
                 drawNoteWithName(currentNote.getString(), currentNote.getFret(), currentNote.getNoteName());
