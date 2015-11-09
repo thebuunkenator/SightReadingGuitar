@@ -7,7 +7,7 @@ public class FingeringSystem {
   private int keyString;
   private int startBox;
   private int endBox;
-//  intervallen van toonladde
+//  intervallen van toonladder
   FingeringSystem(FingeringPosition _name, int _keyString, int _startBox, int _endBox)
   {
     name=_name;

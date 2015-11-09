@@ -120,7 +120,7 @@ public class StaffPanel extends JPanel implements ActionListener {
             octave = "''";
         }
 
-        System.out.println(qn.getNoteName()+octave);
+        //System.out.println(qn.getNoteName()+octave);
         resetTune(currentKey, currentScale, qn.getNoteName(), octave);
     }
 

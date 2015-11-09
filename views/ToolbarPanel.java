@@ -26,6 +26,7 @@ public class ToolbarPanel extends JPanel {
         cmbScale = new JComboBox();
         cmbFingeringSystem = new JComboBox();
         btnStart =  new JButton("Start");
+        btnStart.setEnabled(false);
 
         setLayout(new FlowLayout(FlowLayout.LEFT));
 

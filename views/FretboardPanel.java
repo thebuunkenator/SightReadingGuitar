@@ -24,7 +24,7 @@ public class FretboardPanel extends views.Canvas {
     double scale;
     int numFrets = 21;
     int distanceFromEdge=16; // afstand tussen de snaar en de rand van de hals
-    boolean useFrame;
+    boolean useFrame = false;
     String[] tuning = { "e", "b", "g", "d", "a", "e" };
     String[] currentScaleNotes = {"c", "d", "e", "f", "g", "a", "b"};
     private int[] position = { 0, 3 };
@@ -187,10 +187,12 @@ public class FretboardPanel extends views.Canvas {
         dot(3);
         dot(5);
         dot(7);
+        dot(9);
         doubleDot(12);
         dot(15);
         dot(17);
         dot(19);
+        dot(21);
         doubleDot(24);
     }
 
@@ -257,7 +259,7 @@ public class FretboardPanel extends views.Canvas {
         marginLeft = 50;
         marginTop = 50;
         numFrets=15;
-        useFrame=true;
+//        useFrame=true;
         textAlign(CENTER, CENTER);
 
     }

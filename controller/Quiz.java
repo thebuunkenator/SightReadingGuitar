@@ -3,11 +3,9 @@ package controller;
 import model.QuizNote;
 import views.FretboardPanel;
 import views.StaffPanel;
+import views.ToolbarPanel;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.TimerTask;
-import java.util.Timer;
+import java.util.*;
 
 /**
  * Quiz
@@ -27,12 +25,20 @@ public class Quiz {
     private StaffPanel staf;
     private FretboardPanel fretboard;
 
+
+
+    private ToolbarPanel toolbar;
+
     public void setFretboard(FretboardPanel fretboard) {
         this.fretboard = fretboard;
     }
 
     public void setStaf(StaffPanel staf) {
         this.staf = staf;
+    }
+
+    public void setToolbar(ToolbarPanel toolbar) {
+        this.toolbar = toolbar;
     }
 
     public Quiz(ArrayList<QuizNote> qns) {
@@ -46,6 +52,7 @@ public class Quiz {
                 delay*1000);  //subsequent rate
 
         isRunning = true;
+
     }
 
     public boolean isRunning() {
@@ -55,6 +62,7 @@ public class Quiz {
     public void cancel() {
         timer.cancel();
         isRunning =  false;
+        toolbar.getBtnStart().setText("Start");
     }
 
     public int getDelay() {
@@ -85,6 +93,7 @@ public class Quiz {
 
             if (question) {
                 System.out.println("Question" + currentQuestion);
+                toolbar.getBtnStart().setText("Stop");
                 randomNote = selectRandomNote(); //returns quiznote do something with it
                 staf.singleQuizNote(randomNote);
                 fretboard.clearQuizNotes();
@@ -105,6 +114,9 @@ public class Quiz {
                 System.out.println("Cancelling quiz.");
                 isRunning =  false;
                 //reset de Quiznote in Model
+                //Button moet weer ingesteld worden
+                fretboard.setQuizNotes(quizNotes);
+                toolbar.getBtnStart().setText("Start");
             }
 
         }

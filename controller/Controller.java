@@ -12,8 +12,6 @@ import views.ToolbarPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
-
 /**
  * Controller
  *
@@ -53,7 +51,7 @@ public class Controller {
         ActionListener startExcercise = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Controller recieved action: Starting Excercise");
+                //System.out.println("Controller recieved action: Starting Excercise");
 
                 if(toolbar.getBtnStart().getText().equals("Start")) {
 
@@ -64,12 +62,12 @@ public class Controller {
                         quiz = new Quiz(model.getQuizNotes());
                         quiz.setFretboard(fretboard);
                         quiz.setStaf(staff);
+                        quiz.setToolbar(toolbar);
                     }
                     toolbar.getBtnStart().setText("Stop");
                 } else {
                     quiz.cancel();
-                    toolbar.getBtnStart().setText("Start");
-
+                    fretboard.setQuizNotes(model.getQuizNotes());
                 }
 
 
@@ -80,7 +78,7 @@ public class Controller {
         ActionListener changeExcercise = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Controller recieved action: Change in comboboxes");
+                //System.out.println("Controller recieved action: Change in comboboxes");
 
                 //Key
                 String key = (String) toolbar.getCmbKey().getSelectedItem();
@@ -134,7 +132,10 @@ public class Controller {
                     model.generateQuizNotes(true);
                     fretboard.setQuizNotes(model.getQuizNotes());
 
-                } else System.err.println("Error selecting key or scale. Either one is note found");
+                } else {
+                    System.err.println("Error selecting key or scale. Either one is note found");
+                }
+                toolbar.getBtnStart().setEnabled(true);
             }
         };
 
@@ -142,11 +143,6 @@ public class Controller {
         /* connect actions to the items in the toolbar*/
         toolbar.addButtonActionListener(startExcercise);
         toolbar.addComboActionListener(changeExcercise);
-
-
-
     }
-
-
 }
 
