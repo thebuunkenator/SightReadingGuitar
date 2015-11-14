@@ -1,6 +1,7 @@
 package views;
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.lang.*;
@@ -12,6 +13,10 @@ public class ToolbarPanel extends JPanel {
     private JComboBox cmbKey; //A.b.c etcd
     private JComboBox cmbScale; //major, dorian,,,
     private JComboBox cmbFingeringSystem; // C A G E D
+    private JSpinner questions;
+    private JSpinner interval;
+    private SpinnerModel questionsModel;
+    private SpinnerModel intervalModel;
 
     public JButton getBtnStart() {
         return btnStart;
@@ -28,6 +33,12 @@ public class ToolbarPanel extends JPanel {
         btnStart =  new JButton("Start");
         btnStart.setEnabled(false);
 
+        questionsModel  = new SpinnerNumberModel(20, 5, 100, 5);
+        questions =  new JSpinner(questionsModel);
+
+        intervalModel  = new SpinnerNumberModel(1000, 100, 5000, 100);
+        interval =  new JSpinner(intervalModel);
+
         setLayout(new FlowLayout(FlowLayout.LEFT));
 
         // Add items to toolbar
@@ -37,6 +48,13 @@ public class ToolbarPanel extends JPanel {
         add(cmbScale);
         add(new JLabel("System:"));
         add(cmbFingeringSystem);
+
+        add(new JLabel("Questions:"));
+        add(questions);
+
+        add(new JLabel("Interval(ms):"));
+        add(interval);
+
         add(btnStart);
     }
 
@@ -89,6 +107,11 @@ public class ToolbarPanel extends JPanel {
         cmbKey.addActionListener(listener);
     }
 
+    public void addQuizChangeListener(ChangeListener listener) {
+        interval.addChangeListener(listener);
+        questions.addChangeListener(listener);
+    }
+
     // Getters
     public JComboBox getCmbKey() {
         return cmbKey;
@@ -101,4 +124,13 @@ public class ToolbarPanel extends JPanel {
     public JComboBox getCmbFingeringSystem() {
         return cmbFingeringSystem;
     }
+
+    public JSpinner getQuestionsSpinner() {
+        return questions;
+    }
+
+    public JSpinner getIntervalSpinner() {
+        return interval;
+    }
+
 }

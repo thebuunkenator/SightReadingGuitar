@@ -9,6 +9,8 @@ import views.GUI;
 import views.StaffPanel;
 import views.ToolbarPanel;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -139,10 +141,23 @@ public class Controller {
             }
         };
 
+        final ChangeListener quizSettings = new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int delay = (int)toolbar.getIntervalSpinner().getValue();
+                int numQuestions = (int)toolbar.getQuestionsSpinner().getValue();
+
+                // TODO: om een of andere reden levert dit een crash
+//                quiz.setDelay(delay);
+//                quiz.setNumQuestions(numQuestions);
+            }
+        };
 
         /* connect actions to the items in the toolbar*/
         toolbar.addButtonActionListener(startExcercise);
         toolbar.addComboActionListener(changeExcercise);
+
+        toolbar.addQuizChangeListener(quizSettings);
     }
 }
 
