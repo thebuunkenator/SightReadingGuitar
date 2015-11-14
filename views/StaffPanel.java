@@ -1,5 +1,6 @@
 package views;
 
+import abc.midi.TunePlayer;
 import abc.midi.TunePlayerListenerInterface;
 import abc.notation.AccidentalType;
 import abc.notation.KeySignature;
@@ -122,6 +123,12 @@ public class StaffPanel extends JPanel implements ActionListener {
 
         //System.out.println(qn.getNoteName()+octave);
         resetTune(currentKey, currentScale, qn.getNoteName(), octave);
+    }
+
+    public void play() {
+        TunePlayer player = new TunePlayer();
+        player.start();
+        player.play(tune);
     }
 
 }

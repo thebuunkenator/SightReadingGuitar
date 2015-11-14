@@ -5,6 +5,7 @@ import views.FretboardPanel;
 import views.StaffPanel;
 import views.ToolbarPanel;
 
+import javax.sound.midi.*;
 import java.util.*;
 
 /**
@@ -106,6 +107,11 @@ public class Quiz {
                 //show on fretboard
                 currentQuestion++;
                 fretboard.setSingleQuizNotes(randomNote);
+                //staf.play();
+
+
+                playNote(randomNote.getMidiNumber());
+
             }
             question = !question;
 
@@ -132,6 +138,30 @@ public class Quiz {
 
         }
 
+    }
+
+    private void playNote(int midiNote){
+        try {
+            Synthesizer syn = null;
+
+            syn = MidiSystem.getSynthesizer();
+            syn.open();
+            final MidiChannel[] mc = syn.getChannels();
+
+            Instrument[] instr = syn.getDefaultSoundbank().getInstruments();
+
+            syn.loadInstrument(instr[24]);
+            System.out.println(instr[24].getName());
+
+            for (int i = 0; i < mc.length; i++) {
+                mc[i].allNotesOff();
+            }
+            mc[5].allNotesOff();
+            mc[5].noteOn(midiNote,92);
+        }
+        catch (MidiUnavailableException e) {
+            e.printStackTrace();
+        }
     }
 
 
