@@ -22,48 +22,21 @@ public class MidiNote {
         return midiNumber;
     }
 
-    public void setMidiNumber(int midiNumber) {
-        this.midiNumber = midiNumber;
-    }
-
     public String getDoubleFlat() {
         return doubleFlat;
     }
-
-    public void setDoubleFlat(String doubleFlat) {
-        this.doubleFlat = doubleFlat;
-    }
-
     public String getFlat() {
         return flat;
     }
-
-    public void setFlat(String flat) {
-        this.flat = flat;
-    }
-
     public String getNormal() {
         return normal;
     }
-
-    public void setNormal(String normal) {
-        this.normal = normal;
-    }
-
     public String getSharp() {
         return sharp;
     }
-
-    public void setSharp(String sharp) {
-        this.sharp = sharp;
-    }
-
     public String getDoubleSharp() {
         return doubleSharp;
     }
 
-    public void setDoubleSharp(String doubleSharp) {
-        this.doubleSharp = doubleSharp;
-    }
 
 }

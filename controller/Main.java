@@ -19,11 +19,12 @@ public class Main {
 
 
         // start application in separate thread
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new Controller();
-            }
-        });
 
+
+        // using the java 8 lambda expression:
+//        SwingUtilities.invokeLater(() -> new Controller());
+
+        //using Method reference:
+        SwingUtilities.invokeLater(Controller::new);
     }
 }

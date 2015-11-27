@@ -19,7 +19,7 @@ public class SRGModel {
     //midituning: begint bij snaar 0; in de rest van de code wort uitgegaan van snaar 1 voor hoge e snaar.
     int[] midiTuning = {64, 59, 55, 50, 45, 40}; // midi noot toon hoogte nodig om vertaling naar notenschrift te maken
 
-    int[] majorScale = {2, 2, 1, 2, 2, 2, 1};
+//    int[] majorScale = {2, 2, 1, 2, 2, 2, 1};
     int[] position = {0, 5};
 
     String sharps[] = {"-", "f#", "c#", "g#", "d#", "a#", "e#", "b#"};
@@ -33,8 +33,6 @@ public class SRGModel {
     Note currentKey;
     FingeringSystem currentFingeringSystem;
 
-    int currentNote = 59;//b
-    //int currentNote = 64;
 
     private HashMap<String, Integer> noteNumbers = new HashMap<String, Integer>();
     private HashMap<Integer, String> midiNoteNumbers = new HashMap<Integer, String>();
@@ -42,8 +40,6 @@ public class SRGModel {
     private ArrayList<FingeringSystem> fingeringSystems = new ArrayList<>();
     private ArrayList<MidiNote> midiNotes = new ArrayList();
     private ArrayList<Scale> scales  = new ArrayList();
-    //TODO: remove this code or change
-    //private QuizNotes quizNotes = new QuizNotes();
     private ArrayList<QuizNote> quizNotes =  new ArrayList<>();
 
     public SRGModel() {
@@ -56,14 +52,14 @@ public class SRGModel {
 
     private void initScales() {
         scales.add(new Scale(KeySignature.MAJOR, "Major"));
-        scales.add(new Scale(KeySignature.MINOR, "Minor"));
-        scales.add(new Scale(KeySignature.AEOLIAN, "Aeolian"));
-        scales.add(new Scale(KeySignature.DORIAN, "Dorian"));
-        scales.add(new Scale(KeySignature.IONIAN, "Ionian"));
-        scales.add(new Scale(KeySignature.LOCRIAN, "Locrian"));
-        scales.add(new Scale(KeySignature.LYDIAN, "Lydian"));
-        scales.add(new Scale(KeySignature.MIXOLYDIAN, "Mixolydian"));
-        scales.add(new Scale(KeySignature.PHRYGIAN, "Phrygian"));
+//        scales.add(new Scale(KeySignature.MINOR, "Minor"));
+//        scales.add(new Scale(KeySignature.AEOLIAN, "Aeolian"));
+//        scales.add(new Scale(KeySignature.DORIAN, "Dorian"));
+//        scales.add(new Scale(KeySignature.IONIAN, "Ionian"));
+//        scales.add(new Scale(KeySignature.LOCRIAN, "Locrian"));
+//        scales.add(new Scale(KeySignature.LYDIAN, "Lydian"));
+//        scales.add(new Scale(KeySignature.MIXOLYDIAN, "Mixolydian"));
+//        scales.add(new Scale(KeySignature.PHRYGIAN, "Phrygian"));
 
     }
 
@@ -90,7 +86,7 @@ public class SRGModel {
         fingeringSystems.add(new FingeringSystem(FingeringPosition.G_CAGED, 6, -4, 0));
         fingeringSystems.add(new FingeringSystem(FingeringPosition.E_CAGED, 6, -1, 2));
         fingeringSystems.add(new FingeringSystem(FingeringPosition.D_CAGED, 4, -1, 3));
-        fingeringSystems.add(new FingeringSystem(FingeringPosition.E_3_PER_STRING, 6, 0, 5));
+//        fingeringSystems.add(new FingeringSystem(FingeringPosition.E_3_PER_STRING, 6, 0, 5));
     }
 
     private void initMidiNotes() {
@@ -224,38 +220,6 @@ public class SRGModel {
         midiNotes.add(new MidiNote(127, "af", "", "g", "", "fx"));
     }
 
-    public ArrayList<Integer> getMidiNotes(String noteToFind) {
-        ArrayList<Integer> noteList = new ArrayList<Integer>();
-
-        for (MidiNote element : midiNotes) {
-            if (element.getDoubleFlat().equals(noteToFind)) {
-                noteList.add((Integer) element.getMidiNumber());
-                midiNoteNumbers.put(element.getMidiNumber(), noteToFind);
-            }
-            if (element.getFlat().equals(noteToFind)) {
-                noteList.add((Integer) element.getMidiNumber());
-                midiNoteNumbers.put(element.getMidiNumber(), noteToFind);
-            }
-            if (element.getNormal().equals(noteToFind)) {
-                noteList.add((Integer) element.getMidiNumber());
-                midiNoteNumbers.put(element.getMidiNumber(), noteToFind);
-            }
-            if (element.getSharp().equals(noteToFind)) {
-                noteList.add((Integer) element.getMidiNumber());
-                midiNoteNumbers.put(element.getMidiNumber(), noteToFind);
-            }
-            if (element.getDoubleSharp().equals(noteToFind)) {
-                noteList.add((Integer) element.getMidiNumber());
-                midiNoteNumbers.put(element.getMidiNumber(), noteToFind);
-            }
-        }
-        return noteList;
-    }
-
-    public ArrayList<Key> getKeys() {
-        return keys;
-    }
-
     public String[] getKeysArray() {
         String [] s;
         s = new String[keys.size()];
@@ -266,10 +230,6 @@ public class SRGModel {
 
 
         return s;
-    }
-
-    public ArrayList<FingeringSystem> getFingeringSystems() {
-        return fingeringSystems;
     }
 
     public String[] getFingeringSystemsArray() {
@@ -299,20 +259,11 @@ public class SRGModel {
 
     }
 
-    public Scale getCurrentScale() {
-        return currentScale;
-    }
-
     public void setCurrentScale(Scale currentScale) {
         this.currentScale = currentScale;
 
-
-
     }
 
-    public Note getCurrentKey() {
-        return currentKey;
-    }
 
     public void setCurrentKey(Note currentKey) {
         this.currentKey = currentKey;

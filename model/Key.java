@@ -33,19 +33,9 @@ public class Key {
     public Note getNote() {
         return note;
     }
-
-    public void setNote(Note note) {
-        this.note = note;
-    }
-
     public String getName() {
         return name;
     }
-
-    public String getKeyNote() {
-        return keyNote;
-    }
-
     public int getNumFlats() {
         return numFlats;
     }
@@ -53,23 +43,6 @@ public class Key {
     public int getNumSharps() {
         return numSharps;
     }
-
-    public void setNumSharps(int numSharps) {
-        this.numSharps = numSharps;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setKeyNote(String keyNote) {
-        this.keyNote = keyNote;
-    }
-
-    public void setNumFlats(int numFlats) {
-        this.numFlats = numFlats;
-    }
-
 
     @Override
     public String toString() {

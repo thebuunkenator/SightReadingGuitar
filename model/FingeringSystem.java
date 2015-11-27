@@ -17,44 +17,14 @@ public class FingeringSystem {
     endBox = _endBox;
   }
 
-  public FingeringPosition getName() {
-    return name;
-  }
-
-  public void setName(FingeringPosition name) {
-    this.name = name;
-  }
-
-  public String getKeyNote() {
-    return keyNote;
-  }
-
-  public void setKeyNote(String keyNote) {
-    this.keyNote = keyNote;
-  }
-
   public int getKeyString() {
     return keyString;
   }
-
-  public void setKeyString(int keyString) {
-    this.keyString = keyString;
-  }
-
   public int getStartBox() {
     return startBox;
   }
-
-  public void setStartBox(int startBox) {
-    this.startBox = startBox;
-  }
-
   public int getEndBox() {
     return endBox;
-  }
-
-  public void setEndBox(int endBox) {
-    this.endBox = endBox;
   }
 
   @Override

@@ -9,32 +9,21 @@ package model;
  * date:      05/11/15
  */
 public enum FingeringPosition {
-    C_CAGED,
-    A_CAGED,
-    G_CAGED,
-    E_CAGED,
-    D_CAGED,
-    E_3_PER_STRING;
+    C_CAGED ("C (CAGED)"),
+    A_CAGED ("A (CAGED)"),
+    G_CAGED ("G (CAGED)"),
+    E_CAGED ("E (CAGED)"),
+    D_CAGED ("D (CAGED)");
+
+    private String nameAsString;
+
+    FingeringPosition (String name) {
+        this.nameAsString =name;
+    }
 
     @Override
     public String toString() {
-        switch (this) {
-            case C_CAGED:
-                return "C (CAGED)";
-            case A_CAGED:
-                return "A (CAGED)";
-            case G_CAGED:
-                return "G (CAGED)";
-            case E_CAGED:
-                return "E (CAGED)";
-            case D_CAGED:
-                return "D (CAGED)";
-            case E_3_PER_STRING:
-                return "E (3 per string)";
-            default:
-                return"unknown";
-
-        }
+        return this.nameAsString;
     }
 }
 

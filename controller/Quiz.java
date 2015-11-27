@@ -48,7 +48,7 @@ public class Quiz {
 
         quizNotes = (ArrayList<QuizNote>)qns.clone();
 
-        timer.schedule(new showQuizNote(), this.delay, this.delay);  //subsequent rate
+        timer.schedule(new showQuizNote(), 1000, this.delay);  //subsequent rate
         isRunning = true;
     }
 
@@ -100,17 +100,20 @@ public class Quiz {
                 playNote(randomNote.getMidiNumber());
 
             }
-            question = !question;
 
-            if(currentQuestion > numQuestions) {
+
+            if((currentQuestion > numQuestions + 1) && question) {
+
                 this.cancel();
-                //TODO: nog 1x wachten
+
                 isRunning =  false;
                 //reset de Quiznote in Model
                 //Button moet weer ingesteld worden
                 fretboard.setQuizNotes(quizNotes);
                 toolbar.getBtnStart().setText("Start");
             }
+
+            question = !question;
 
         }
 

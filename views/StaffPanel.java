@@ -100,7 +100,7 @@ public class StaffPanel extends JPanel implements ActionListener {
         String octave = "";
         int midiNr = qn.getMidiNumber();
 
-        //dit kan natuurlijk netter;
+        // There are probably easier ways to do this
         if(midiNr<48) {
             octave = ",,";
         }

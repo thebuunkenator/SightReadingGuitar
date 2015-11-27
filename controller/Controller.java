@@ -76,10 +76,9 @@ public class Controller {
             }
         };
 
-        ActionListener changeExcercise = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //System.out.println("Controller recieved action: Change in comboboxes");
+        ActionListener changeExcercise = e ->  {
+
+//                System.out.println("Controller recieved action: Change in comboboxes");
 
                 //Key
                 String key = (String) toolbar.getCmbKey().getSelectedItem();
@@ -137,26 +136,13 @@ public class Controller {
                     System.err.println("Error selecting key or scale. Either one is note found");
                 }
                 toolbar.getBtnStart().setEnabled(true);
-            }
-        };
-//
-//        final ChangeListener quizSettings =  e -> {
-//
-//            int delay = (int)toolbar.getIntervalSpinner().getValue();
-//            int numQuestions = (int)toolbar.getQuestionsSpinner().getValue();
-//
-//            if(quiz != null )
-//            {
-//                quiz.setDelay(delay);
-//                quiz.setNumQuestions(numQuestions);
-//            }
-//        };
+            };
+
 
         /* connect actions to the items in the toolbar*/
         toolbar.addButtonActionListener(startExcercise);
         toolbar.addComboActionListener(changeExcercise);
 
-//        toolbar.addQuizChangeListener(quizSettings);
     }
 }
 
