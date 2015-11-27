@@ -50,30 +50,29 @@ public class Controller {
 
 
         /* Actions */
-        ActionListener startExcercise = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //System.out.println("Controller recieved action: Starting Excercise");
+        ActionListener startExcercise = e -> {
+            //System.out.println("Controller recieved action: Starting Excercise");
 
-                if(toolbar.getBtnStart().getText().equals("Start")) {
+            if (toolbar.getBtnStart().getText().equals("Start")) {
 
 
-                    if (quiz != null && quiz.isRunning()) {
-                        System.out.println("You have to wait");
-                    } else {
-                        quiz = new Quiz(model.getQuizNotes());
-                        quiz.setFretboard(fretboard);
-                        quiz.setStaf(staff);
-                        quiz.setToolbar(toolbar);
-                    }
-                    toolbar.getBtnStart().setText("Stop");
+                if (quiz != null && quiz.isRunning()) {
+                    System.out.println("You have to wait");
                 } else {
-                    quiz.cancel();
-                    fretboard.setQuizNotes(model.getQuizNotes());
+
+                    int delay = (int) toolbar.getIntervalSpinner().getValue();
+                    int numQuestions = (int) toolbar.getQuestionsSpinner().getValue();
+
+                    quiz = new Quiz(model.getQuizNotes(), delay, numQuestions);
+                    quiz.setFretboard(fretboard);
+                    quiz.setStaf(staff);
+                    quiz.setToolbar(toolbar);
+
                 }
-
-
-
+                toolbar.getBtnStart().setText("Stop");
+            } else {
+                quiz.cancel();
+                fretboard.setQuizNotes(model.getQuizNotes());
             }
         };
 
@@ -140,24 +139,24 @@ public class Controller {
                 toolbar.getBtnStart().setEnabled(true);
             }
         };
-
-        final ChangeListener quizSettings = new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                int delay = (int)toolbar.getIntervalSpinner().getValue();
-                int numQuestions = (int)toolbar.getQuestionsSpinner().getValue();
-
-                // TODO: om een of andere reden levert dit een crash
+//
+//        final ChangeListener quizSettings =  e -> {
+//
+//            int delay = (int)toolbar.getIntervalSpinner().getValue();
+//            int numQuestions = (int)toolbar.getQuestionsSpinner().getValue();
+//
+//            if(quiz != null )
+//            {
 //                quiz.setDelay(delay);
 //                quiz.setNumQuestions(numQuestions);
-            }
-        };
+//            }
+//        };
 
         /* connect actions to the items in the toolbar*/
         toolbar.addButtonActionListener(startExcercise);
         toolbar.addComboActionListener(changeExcercise);
 
-        toolbar.addQuizChangeListener(quizSettings);
+//        toolbar.addQuizChangeListener(quizSettings);
     }
 }
 

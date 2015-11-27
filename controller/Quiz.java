@@ -19,14 +19,12 @@ import java.util.*;
 public class Quiz {
 
     private Timer timer;
-    private int delay; //in milli seconds
+    private int delay =1000; //in milli seconds
     private int numQuestions;
     private boolean isRunning;
     private ArrayList<QuizNote> quizNotes = new ArrayList<>();
     private StaffPanel staf;
     private FretboardPanel fretboard;
-
-
 
     private ToolbarPanel toolbar;
 
@@ -42,13 +40,15 @@ public class Quiz {
         this.toolbar = toolbar;
     }
 
-    public Quiz(ArrayList<QuizNote> qns) {
+    public Quiz(ArrayList<QuizNote> qns, int delay, int numQuestions) {
+        this.delay = delay;
+        this. numQuestions = numQuestions;
+
         timer = new Timer();
-        delay = 1000;
-        numQuestions = 20;
+
         quizNotes = (ArrayList<QuizNote>)qns.clone();
 
-        timer.schedule(new showQuizNote(), delay, delay);  //subsequent rate
+        timer.schedule(new showQuizNote(), this.delay, this.delay);  //subsequent rate
         isRunning = true;
     }
 
@@ -70,10 +70,6 @@ public class Quiz {
         this.delay = delay;
     }
 
-    public int getNumQuestions() {
-        return numQuestions;
-    }
-
     public void setNumQuestions(int numQuestions) {
         this.numQuestions = numQuestions;
     }
@@ -89,7 +85,7 @@ public class Quiz {
         public void run() {
 
             if (question) {
-//                System.out.println("Question" + currentQuestion);
+
                 toolbar.getBtnStart().setText("Stop");
                 randomNote = selectRandomNote(); //returns quiznote do something with it
                 staf.singleQuizNote(randomNote);
@@ -99,8 +95,6 @@ public class Quiz {
 
 
             } else {
-//                System.out.println("Answer");
-                //show on fretboard
                 currentQuestion++;
                 fretboard.setSingleQuizNotes(randomNote);
                 playNote(randomNote.getMidiNumber());
@@ -110,7 +104,6 @@ public class Quiz {
 
             if(currentQuestion > numQuestions) {
                 this.cancel();
-//                System.out.println("Cancelling quiz.");
                 //TODO: nog 1x wachten
                 isRunning =  false;
                 //reset de Quiznote in Model
@@ -144,9 +137,9 @@ public class Quiz {
 
             Instrument[] instr = syn.getDefaultSoundbank().getInstruments();
 
-            //TODO: instrumente change werkt nog niet
+            //TODO: instrument change werkt nog niet
             syn.loadInstrument(instr[24]);
-            System.out.println(instr[24].getName());
+//            System.out.println(instr[24].getName());
 
             for (int i = 0; i < mc.length; i++) {
                 mc[i].allNotesOff();
